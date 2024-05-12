@@ -83,7 +83,7 @@
                         <li class="scroll-to-section"><a href="#contact">Contact</a></li>
                         <c:if test="${memberDTO != null}">
                             <li><span>${name}님,</span></li>
-                            <li><a href="login/logout">로그아웃</a></li>
+                            <li><a href="/login/logout">로그아웃</a></li>
                         </c:if>
                         <c:if test="${memberDTO == null}">
                             <li><div class="border-first-button"><a href="">Join</a></div></li>
