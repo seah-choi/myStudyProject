@@ -2,6 +2,7 @@ package org.fullstack4.mystudyproject.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.fullstack4.mystudyproject.dto.LoginDTO;
 import org.fullstack4.mystudyproject.dto.MemberDTO;
 import org.fullstack4.mystudyproject.service.LoginServiceIf;
 import org.fullstack4.mystudyproject.util.CookieUtil;
@@ -31,15 +32,16 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginPost(Model model, MemberDTO memberDTO,
+    public String loginPost(Model model, LoginDTO memberDTO,
                             @RequestParam(name="sava_id", defaultValue = "") String save_id,
                             HttpServletResponse resp,
                             HttpServletRequest req,
                             BindingResult bindingResult,
                             RedirectAttributes redirectAttributes){
+                
         log.info("LoginController >> loginPost");
 
-        MemberDTO loginMemberDTO = loginService.login(memberDTO.getUser_id(), memberDTO.getPassword());
+        LoginDTO loginMemberDTO = loginService.login(memberDTO.getUser_id(), memberDTO.getPassword());
 
         if(bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
@@ -54,8 +56,9 @@ public class LoginController {
 
 
         HttpSession session = req.getSession();
-        session.setAttribute("user_id",memberDTO.getUser_id());
-        session.setAttribute("name",memberDTO.getName());
+        session.setAttribute("user_id",loginMemberDTO.getUser_id());
+        session.setAttribute("name",loginMemberDTO.getName());
+        session.setAttribute("loginMemberDTO",loginMemberDTO);
         model.addAttribute("memberDTO",loginMemberDTO);
         return "redirect:/";
         }

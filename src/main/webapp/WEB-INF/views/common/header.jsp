@@ -1,5 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <head>
 
     <meta charset="UTF-8">
@@ -69,7 +69,7 @@
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
+                    <a href="/" class="logo">
                         <img src="/resources/assets/images/logo-v3.png" alt="">
                     </a>
                     <!-- ***** Logo End ***** -->
@@ -80,14 +80,14 @@
                         <li class="scroll-to-section"><a href="#services">Services</a></li>
                         <li class="scroll-to-section"><a href="#portfolio">Projects</a></li>
                         <li class="scroll-to-section"><a href="#blog">Blog</a></li>
-                        <li class="scroll-to-section"><a href="#contact">Contact</a></li>
-                        <c:if test="${memberDTO != null}">
-                            <li><span>${name}님,</span></li>
-                            <li><a href="/login/logout">로그아웃</a></li>
+                        <li class="scroll-to-section"><a href="/member/view?user_id=${user_id}">MyPage</a></li>
+                        <c:if test="${not empty loginMemberDTO}">
+                            <li><span style="font-weight: bold">${sessionScope.name}</span>님</li>
+                            <li><span onclick="logout(event)">로그아웃</span></li>
                         </c:if>
-                        <c:if test="${memberDTO == null}">
-                            <li><div class="border-first-button"><a href="">Join</a></div></li>
-                            <li><div class="border-first-button"><a href="">Login</a></div></li>
+                        <c:if test="${empty loginMemberDTO}">
+                            <li><div class="border-first-button"><a href="/member/join">Join</a></div></li>
+                            <li><div class="border-first-button"><a href="/login/login">Login</a></div></li>
                         </c:if>
                     </ul>
                     <a class='menu-trigger'>
@@ -105,4 +105,14 @@
 <script src="/resources/assets/js/animation.js"></script>
 <script src="/resources/assets/js/imagesloaded.js"></script>
 <script src="/resources/assets/js/custom.js"></script>
+<script>
+    function logout(e) {
+        e.preventDefault();
+        if(confirm("로그아웃 하시겠습니까?")) {
+            location.href="/login/logout";
+        } else {
+            return false;
+        }
+    }
+</script>
 <!-- ***** Header Area End ***** -->

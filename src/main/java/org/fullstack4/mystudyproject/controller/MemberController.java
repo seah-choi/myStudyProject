@@ -32,6 +32,9 @@ public class MemberController {
             redirectAttributes.addFlashAttribute("member", memberDTO);
         }
 
+        memberDTO.setEmail(memberDTO.getEmail1(), memberDTO.getEmail2());
+        memberDTO.setPhone_number(memberDTO.getPhone_number1(),memberDTO.getPhone_number2(),memberDTO.getPhone_number3());
+
         int result = memberService.join(memberDTO);
         if(result > 0){
             return "redirect:/login/login";
@@ -57,6 +60,8 @@ public class MemberController {
 
     @PostMapping("/modify")
     public String modifyPost(MemberDTO memberDTO, BindingResult bindingResult, Model model){
+        memberDTO.setEmail(memberDTO.getEmail1(), memberDTO.getEmail2());
+        memberDTO.setPhone_number(memberDTO.getPhone_number1(),memberDTO.getPhone_number2(),memberDTO.getPhone_number3());
         int result = memberService.modify(memberDTO);
         if(result > 0){
             return "redirect:/member/view?user_id=" + memberDTO.getUser_id();

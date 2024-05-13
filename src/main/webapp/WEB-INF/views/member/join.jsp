@@ -7,7 +7,7 @@
         .card-body {
             width: 450px;
             margin: 0 auto;
-            margin-top: 50px;
+            margin-top: 150px;
         }
         .form-floating {
             margin-top: 15px;

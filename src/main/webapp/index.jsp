@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -71,7 +72,7 @@
             <div class="col-12">
                 <nav class="main-nav">
                     <!-- ***** Logo Start ***** -->
-                    <a href="index.html" class="logo">
+                    <a href="/" class="logo">
                         <img src="/resources/assets/images/logo-v3.png" alt="">
                     </a>
                     <!-- ***** Logo End ***** -->
@@ -82,13 +83,14 @@
                         <li class="scroll-to-section"><a href="#services">Services</a></li>
                         <li class="scroll-to-section"><a href="#portfolio">Projects</a></li>
                         <li class="scroll-to-section"><a href="#blog">Blog</a></li>
-                        <li class="scroll-to-section"><a href="#contact">Contact</a></li>
-                        <c:if test="${memberDTO != null}">
-                            <li><span>${name}님,</span></li>
+                        <li class="scroll-to-section"><a href="/member/view?user_id=${user_id}">MyPage</a></li>
+                        <c:if test="${not empty loginMemberDTO}">
+                            <li class="scroll-to-section"><a href="#contact">Contact</a></li>
+                            <li><span style="font-weight: bold">${sessionScope.name}</span>님</li>
                             <li><a href="/login/logout">로그아웃</a></li>
                         </c:if>
-                        <c:if test="${memberDTO == null}">
-                            <li><div class="border-first-button"><a href="">Join</a></div></li>
+                        <c:if test="${empty loginMemberDTO}">
+                            <li><div class="border-first-button"><a href="/member/join">Join</a></div></li>
                             <li><div class="border-first-button"><a href="/login/login">Login</a></div></li>
                         </c:if>
                     </ul>

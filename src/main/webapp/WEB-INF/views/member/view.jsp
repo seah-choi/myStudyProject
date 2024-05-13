@@ -6,7 +6,7 @@
         .card-body {
             width: 500px;
             margin: 0 auto;
-            margin-top: 50px;
+            margin-top: 150px;
         }
         .form-floating {
             margin-top: 15px;
@@ -49,6 +49,12 @@
             <label for="email" class="col-sm-2 col-form-label">이메일</label>
             <div class="col-sm-10">
                 <input type="text" readonly class="form-control-plaintext" id="email" value="${member.email}">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="phone_number" class="col-sm-2 col-form-label">전화번호</label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="phone_number" value="${member.phone_number}">
             </div>
         </div>
         <br><br>
