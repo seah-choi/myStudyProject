@@ -54,8 +54,8 @@
             <label for="user_id">id</label>
         </div>
         <div class="form-floating">
-            <input type="password" class="form-control" name="pwd" id="pwd"  maxlength="20" placeholder="Password">
-            <label for="pwd">Password</label>
+            <input type="password" class="form-control" name="password" id="password"  maxlength="20" placeholder="Password">
+            <label for="password">Password</label>
         </div>
         <div>
             <c:if test="${not empty loginErr}"><span style="color: red">${loginErr}</span></c:if>
