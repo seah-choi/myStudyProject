@@ -27,6 +27,7 @@
                 font-size: 3.5rem;
             }
         }
+
         .form-signin {
             width: 400px;
             margin: 0 auto;
@@ -35,6 +36,24 @@
         }
         .form-floating {
             margin-top: 15px;
+        }
+        #search {
+            font-size: large;
+            margin-bottom: 15px;
+        }
+        #search > a {
+            color: #000000;
+        }
+        #search a:hover, #search a:focus {
+            color: #5c636a;
+            text-decoration: underline !important;
+        }
+        #btn {
+            display: flex;
+            justify-content: center;
+            background-color: #4da6e7;
+            height: 60px;
+            border-radius: 7px;
         }
     </style>
     <link href="signin.css" rel="stylesheet">
@@ -57,7 +76,7 @@
             <input type="password" class="form-control" name="password" id="password"  maxlength="20" placeholder="Password">
             <label for="password">Password</label>
         </div>
-        <div>
+        <div id="result">
             <c:if test="${not empty loginErr}"><span style="color: red">${loginErr}</span></c:if>
         </div>
         <br>
@@ -65,15 +84,45 @@
             <label>
                 <input type="checkbox" name="save_id" id="save_id" value="Y" <c:if test="${cookie.save_id.value != null}">checked</c:if>> 아이디저장&nbsp;
             </label>
-<%--            <label>--%>
-<%--                <input type="checkbox" name="auto_login" id="auto_login" value="Y"> 자동로그인--%>
-<%--            </label>--%>
+            <label>
+                <input type="checkbox" name="auto_login" id="auto_login" value="Y"> 자동로그인
+            </label>
         </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit" id="btn_login">Login</button>
+        <div id="search">
+            <a href="">아이디 찾기</a><span> | </span>
+            <a href="/login/pwdSearch">비밀번호 찾기</a><span> | </span>
+            <a href="/member/join">회원가입</a>
+        </div>
+        <div id="btn">
+            <button class="w-100 btn" type="submit" id="btn_login"><span style="color: #fff;font-size: large;">Login</span></button>
+        </div>
     </form>
 </main>
 
 <%@ include file="../common/footer.jsp"%>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+    let user_id = document.querySelector("#user_id");
+    let password = document.querySelector("#password");
+    let result = document.querySelector("#result");
+    let frm = document.querySelector("#frm");
+
+    document.querySelector("#btn_login").addEventListener("click", function (e){
+        e.preventDefault();
+        if(user_id.value == null || user_id.value == ""){
+            result.innerText = "아이디를 입력해주세요.";
+            result.style.color = "red";
+            return false;
+        }
+        if(password.value == null || password.value == ""){
+            result.innerText = "비밀번호를 입력해주세요.";
+            result.style.color = "red";
+            return false;
+        } else {
+            result.innerText = "";
+            frm.submit();
+        }
+    })
+</script>
 </body>
 </html>

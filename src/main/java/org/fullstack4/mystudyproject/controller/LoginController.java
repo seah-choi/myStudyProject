@@ -76,4 +76,23 @@ public class LoginController {
         }
         return "redirect:/";
     }
+
+    @GetMapping("/pwdSearch")
+    public void pwdSearchGet(){}
+
+    @PostMapping("/pwdSearch")
+    public void pwdSearchPost(){
+
+    }
+
+    @GetMapping("/pwdSearchResult")
+    public void pwdSearchResult(){}
+
+    @GetMapping("/pwdChange")
+    public void pwdChangeGet(){}
+
+    @PostMapping("/pwdChange")
+    public void pwdChangePost(){
+
+    }
 }

@@ -69,9 +69,6 @@
             <label for="user_id">id</label>
             <div id="div_err_user_id" style="display: none "></div>
         </div>
-        <c:if test="${password == null || password == ''}">
-            <input type="hidden" name="password" value="${member.password}">
-        </c:if>
         <div class="form-floating mb-3" style="display: flex">
             <input type="password" class="form-control" name="password" id="password" maxlength="100" placeholder="비밀번호 입력">
             <label for="password">비밀번호 입력</label>
@@ -137,6 +134,7 @@
 
         if(pwdCheck.test(newpassword)){
             img.src = "/resources/img/green_check.png";
+            result.innerHTML = "";
         } else if(id === newpassword){
             result.innerHTML = "* 아이디와 비밀번호는 같을 수 없습니다.";
             result.style.color = "red";
@@ -161,6 +159,7 @@
 
         if(password === password2){
             img.src = "/resources/img/green_check.png";
+            result.innerHTML = "";
         } else{
             result.innerHTML = "* 비밀번호가 동일하지 않습니다.";
             result.style.color = "red";

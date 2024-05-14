@@ -30,6 +30,7 @@ public class MemberController {
         if(bindingResult.hasErrors()){
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             redirectAttributes.addFlashAttribute("member", memberDTO);
+            return "redirect:/member/join";
         }
 
         memberDTO.setEmail(memberDTO.getEmail1(), memberDTO.getEmail2());

@@ -80,8 +80,8 @@
                         <li class="scroll-to-section"><a href="#services">Services</a></li>
                         <li class="scroll-to-section"><a href="#portfolio">Projects</a></li>
                         <li class="scroll-to-section"><a href="#blog">Blog</a></li>
-                        <li class="scroll-to-section"><a href="/member/view?user_id=${user_id}">MyPage</a></li>
                         <c:if test="${not empty loginMemberDTO}">
+                            <li class="scroll-to-section"><a href="/member/view?user_id=${user_id}">MyPage</a></li>
                             <li><span style="font-weight: bold">${sessionScope.name}</span>님</li>
                             <li><span onclick="logout(event)">로그아웃</span></li>
                         </c:if>
