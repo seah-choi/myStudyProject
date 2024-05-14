@@ -92,7 +92,14 @@ public class LoginController {
     public void pwdChangeGet(){}
 
     @PostMapping("/pwdChange")
-    public void pwdChangePost(){
-
+    public String pwdChangePost(@RequestParam(name="user_id", defaultValue = "")String user_id){
+        int result = loginService.pwdChange(user_id);
+        log.info("result : "+result);
+        if(result > 0 ) {
+            return "redirect:/login/login";
+        } else {
+            log.info("변경 실패");
+            return "redirect:/login/pwdChange";
+        }
     }
 }

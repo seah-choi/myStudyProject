@@ -78,8 +78,9 @@
 <body>
 <form name="frm" id="frm" method="post" action="/login/pwdChange">
     <div class="card-body">
+        <input type="hidden" name="user_id" id="user_id" value="${seah}">
         <div id="h4">
-            <h4 style="font-weight: bold;">비밀번호를 찾고자 하는 아이디를 입력하세요.</h4>
+            <h4 style="font-weight: bold;">개인정보를 위해 비밀번호를 변경하세요.</h4>
         </div>
         <br>
         <div class="form-floating mb-3" style="display: flex">

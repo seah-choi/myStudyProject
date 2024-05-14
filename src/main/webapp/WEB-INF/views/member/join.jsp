@@ -225,6 +225,18 @@
         }
     }
 
+    //아이디 체크
+    document.querySelector("#user_id").addEventListener("keyup", function (){
+        let idCheck= /^(?=.*[a-z])(?=.*[0-9]).{5,15}$/;
+        let id = document.querySelector("#user_id");
+        let result = document.querySelector(".result");
+
+        if(idCheck.test(id)){
+            result.innerHTML ="";
+        } else{
+            result.innerHTML = "* 5자 이상의 영소문자, 숫자를 입력해주세요."
+        }
+    })
     //비밀번호 체크
     document.querySelector("#password").addEventListener("keyup", function (){
         let pwdCheck = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{10,20}$/;

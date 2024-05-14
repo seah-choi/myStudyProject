@@ -28,4 +28,10 @@ public class LoginServiceImpl implements LoginServiceIf{
 
         return memberDTO;
     }
+
+    @Override
+    public int pwdChange(String id) {
+        int result = loginMapper.pwdChange(id);
+        return result;
+    }
 }
