@@ -76,12 +76,11 @@
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
                         <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
-                        <li class="scroll-to-section"><a href="#about">About</a></li>
-                        <li class="scroll-to-section"><a href="#services">Services</a></li>
-                        <li class="scroll-to-section"><a href="#portfolio">Projects</a></li>
-                        <li class="scroll-to-section"><a href="#blog">Blog</a></li>
                         <c:if test="${not empty loginMemberDTO}">
-                            <li class="scroll-to-section"><a href="/member/view?user_id=${user_id}">MyPage</a></li>
+                            <li class="scroll-to-section"><a href="/member/view?user_id=${user_id}">마이페이지</a></li>
+                            <li class="scroll-to-section"><a href="/myStudy/main">오늘의 학습</a></li>
+                            <li class="scroll-to-section"><a href="/myStudy/list">나의 학습</a></li>
+                            <li class="scroll-to-section"><a href="/shareStudy/list">공유학습</a></li>
                             <li><span style="font-weight: bold">${sessionScope.name}</span>님</li>
                             <li><span onclick="logout(event)">로그아웃</span></li>
                         </c:if>

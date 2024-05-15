@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <title>DigiMedia - Creative SEO HTML5 Template</title>
+    <title>MyStudy</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -78,16 +78,14 @@
                     <!-- ***** Logo End ***** -->
                     <!-- ***** Menu Start ***** -->
                     <ul class="nav">
-                        <li class="scroll-to-section"><a href="#top" class="active">Home</a></li>
-                        <li class="scroll-to-section"><a href="#about">About</a></li>
-                        <li class="scroll-to-section"><a href="#services">Services</a></li>
-                        <li class="scroll-to-section"><a href="#portfolio">Projects</a></li>
-                        <li class="scroll-to-section"><a href="#blog">Blog</a></li>
-
+                        <li class="scroll-to-section"><a href="/" class="active">Home</a></li>
                         <c:if test="${not empty loginMemberDTO}">
-                            <li class="scroll-to-section"><a href="/member/view?user_id=${user_id}">MyPage</a></li>
+                            <li class="scroll-to-section"><a href="/member/view?user_id=${user_id}">마이페이지</a></li>
+                            <li class="scroll-to-section"><a href="/myStudy/main">오늘의 학습</a></li>
+                            <li class="scroll-to-section"><a href="/myStudy/list">나의 학습</a></li>
+                            <li class="scroll-to-section"><a href="/shareStudy/list">공유학습</a></li>
                             <li><span style="font-weight: bold">${sessionScope.name}</span>님</li>
-                            <li><a href="/login/logout">로그아웃</a></li>
+                            <li><span onclick="logout(event)">로그아웃</span></li>
                         </c:if>
                         <c:if test="${empty loginMemberDTO}">
                             <li><div class="border-first-button"><a href="/member/join">Join</a></div></li>

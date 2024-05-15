@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http;//mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fullstack4.mystudyproject.mapper.MyStudyMapper">
+    <select id="list" resultType="org.fullstack4.mystudyproject.domain.MyStudyVO">
+        SELECT study_idx, user_id, title, display_status, display_start, display_end, `like`, reg_date
+        FROM tbl_mystudy
+        WHERE user_id = #{user_id}
+        ORDER BY study_idx DESC
+        LIMIT #{page_skip_count}, #{page_size}
+    </select>
+
+    <select id="view" resultType="org.fullstack4.mystudyproject.domain.MyStudyVO">
+        SELECT study_idx, user_id, title,content, display_status, display_start, display_end, like, reg_date
+        ,image, hashtag, field, share_people
+        FROM tbl_mystudy
+        WHERE study_idx = #{study_idx}
+    </select>
+
+    <insert id="regist">
+        INSERT INTO tbl_mystudy(user_id, title,content, display_status, display_start, display_end, reg_date
+        ,image, hashtag, field, share_people)
+        VALUES(#{user_id},#{title},#{content},#{display_status},#{display_start},#{display_end},now(),#{image}
+        ,#{hashtag},#{field},#{share_people})
+    </insert>
+
+    <update id="modify">
+        UPDATE tbl_mystudy SET content=#{content}, title=#{title}, display_status=#{display_status},
+        display_start=#{display_start}, display_end=#{display_end}, image=#{image}, hashtag=#{hashtag},
+        field=#{field}, share_people=#{share_people}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM tbl_mystudy WHERE study_idx = #{study_idx}
+    </delete>
+
+    <select id="total_count" resultType="int">
+        SELECT COUNT(*) FROM tbl_mystudy WHERE user_id = #{user_id}
+    </select>
+</mapper>
