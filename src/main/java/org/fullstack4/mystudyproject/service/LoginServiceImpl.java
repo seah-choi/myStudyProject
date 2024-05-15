@@ -19,7 +19,6 @@ import java.util.UUID;
 public class LoginServiceImpl implements LoginServiceIf{
     private final LoginMapper loginMapper;
     private final ModelMapper modelMapper;
-    private final CommonUtil commonUtil;
 
     @Override
     public LoginDTO login(String id, String pwd) {
@@ -34,8 +33,8 @@ public class LoginServiceImpl implements LoginServiceIf{
     }
 
     @Override
-    public int pwdChange(String id) {
-        int result = loginMapper.pwdChange(id);
+    public int pwdChange(String id, String pwd) {
+        int result = loginMapper.pwdChange(id, pwd);
         return result;
     }
 
@@ -46,9 +45,19 @@ public class LoginServiceImpl implements LoginServiceIf{
     }
 
     @Override
-    public int pwdSearch(String id) {
+    public String pwdSearch(String id) {
         String tempPassword = UUID.randomUUID().toString().substring(0, 10);
         int result = loginMapper.pwdSearch(id, tempPassword);
+        if(result > 0){
+            return tempPassword;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public int login_fail(String id) {
+        int result = loginMapper.login_fail(id);
         return result;
     }
 }

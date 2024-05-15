@@ -96,9 +96,6 @@
                         $("#result").html(msg).css("color", "red");
                         //$("#result").css("display", "none");
                      } else {
-                    //     let msg = "일치하는 아이디가 없습니다..";
-                    //     $("#result").html(msg).css("color", "red");
-                    //    //$("#result").css("display", "none");
                      }
 
                 },
@@ -127,6 +124,21 @@
         });
     });
 
+    // document.querySelector("#btn_send").addEventListener("click", function (e){
+    //     e.preventDefault();
+    //     let id = document.querySelector("#user_id");
+    //     let result = document.querySelector("#result");
+    //     let frm = document.querySelector("#frm");
+    //
+    //     if(id.value == null || id.value == ""){
+    //         result.innerHTML="아이디를 입력해주세요.";
+    //         result.style.color="red";
+    //         return false;
+    //     } else {
+    //         result.innerHTML="";
+    //     }
+    //
+    // })
 </script>
 </body>
 </html>

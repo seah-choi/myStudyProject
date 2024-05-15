@@ -78,7 +78,7 @@
 <body>
 <form name="frm" id="frm" method="post" action="/login/pwdChange">
     <div class="card-body">
-        <input type="hidden" name="user_id" id="user_id" value="${seah}">
+        <input type="hidden" name="user_id" id="user_id" value="${id}">
         <div id="h4">
             <h4 style="font-weight: bold;">개인정보를 위해 비밀번호를 변경하세요.</h4>
         </div>
@@ -88,26 +88,27 @@
             <label for="oldpassword">이전 비밀번호</label>
             <img src="/resources/img/checked_711239.png" id="img0">
         </div>
+        <div class="result" style="font-size: small;"></div>
         <div class="form-floating mb-3" style="display: flex">
             <input type="password" class="form-control" name="password" id="newpassword" maxlength="100" placeholder="비밀번호 입력">
             <label for="newpassword">새 비밀번호</label>
             <img src="/resources/img/checked_711239.png" id="img1">
         </div>
-        <div id="result" style="font-size: small;"></div>
+        <div id="result" class="result" style="font-size: small;"></div>
         <div class="form-floating mb-3" style="display: flex">
             <input type="password" class="form-control" name="password2" id="password2" maxlength="100" placeholder="비밀번호 확인">
             <label for="password2">새 비밀번호 확인</label>
             <img src="/resources/img/checked_711239.png" id="img2">
         </div>
-        <div id="result2" style="font-size: small;"></div>
+        <div id="result2" class="result" style="font-size: small;"></div>
         <div id="text">
             <p>* 10자 이상의 영문 소문자, 숫자, 특수문자를 모두 조합하여 설정하여 주세요.</p>
             <p>* 아이디와 같은 패스워드는 사용할 수 없습니다.</p>
             <p>* 생년월일, 주민등록번호, 연속된 숫자 등의 패스워드 사용은 삼가해주세요.</p>
         </div>
         <div id="box">
-            <button class="btn" id ="btn" type="submit" id="btn_save"><span style="color: #fff;font-size: large;margin-top: 10px;">저장</span></button>&nbsp;&nbsp;
-            <button class="btn" id ="btn2" type="reset" id="btn_reset"><span style="color: #fff;font-size: large;margin-top: 10px;">취소</span></button>
+            <button class="btn" id ="btn" type="submit"><span style="color: #fff;font-size: large;margin-top: 10px;">저장</span></button>&nbsp;&nbsp;
+            <button class="btn" id ="btn2" type="reset"><span style="color: #fff;font-size: large;margin-top: 10px;">취소</span></button>
         </div>
     </div>
 </form>
@@ -117,7 +118,7 @@
     document.querySelector("#newpassword").addEventListener("keyup", function (){
         let pwdCheck = /^(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*?_]).{10,20}$/;
         let newpassword = document.querySelector("#newpassword").value;
-        let oldpassword = `${member.password}`;
+        let oldpassword = `${pwd}`;
         let img = document.querySelector("#img1");
         let result = document.querySelector("#result");
         let id = document.querySelector("#user_id").value;
@@ -143,12 +144,12 @@
     })
 
     document.querySelector("#password2").addEventListener("keyup", function (){
-        let password = document.querySelector("#password").value;
+        let newpassword = document.querySelector("#newpassword").value;
         let password2 = document.querySelector("#password2").value;
         let img = document.querySelector("#img2");
         let result = document.querySelector("#result2");
 
-        if(password === password2){
+        if(newpassword === password2){
             img.src = "/resources/img/green_check.png";
             result.innerHTML = "";
         } else{
@@ -157,6 +158,42 @@
             img.src = "/resources/img/red_check.png"
         }
     })
+
+    document.querySelector("#btn").addEventListener("click", function (e){
+        e.preventDefault();
+
+        let oldpassword = document.querySelector("#oldpassword");
+        let newpassword = document.querySelector("#newpassword");
+        let password2 = document.querySelector("#password2");
+        let result = document.querySelectorAll(".result");
+        let frm = document.querySelector("#frm");
+
+        if(oldpassword.value == null || oldpassword.value == ""){
+            result[0].innerHTML="이전 비밀번호를 입력해주세요.";
+            result[0].style.color="red";
+            return false;
+        } else {
+            result[0].innerHTML ="";
+        }
+        if(newpassword.value == null || newpassword.value == ""){
+            result[1].innerHTML="새 비밀번호를 입력해주세요.";
+            result[1].style.color="red";
+            return false;
+        } else {
+            result[1].innerHTML ="";
+        }
+        if(password2.value == null || password2.value == ""){
+            result[2].innerHTML="새 비밀번호를 확인해주세요.";
+            result[2].style.color="red";
+            return false;
+        } else {
+            result[2].innerHTML ="";
+        }
+
+        alert("비밀번호가 변경되었습니다.");
+        frm.submit();
+    })
+
 </script>
 <%@ include file="../common/footer.jsp"%>
 </body>

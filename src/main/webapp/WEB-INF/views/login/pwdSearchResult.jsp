@@ -46,8 +46,12 @@
         </div>
         <br>
         <div>
-            <p>뽀리야</p>
+            <p>아이디 : ${id}</p>
+            <p>비밀번호 : <span style="color: dodgerblue">${pwd}</span></p>
+            <br>
+            <p>* 임시 비밀번호를 복사 후 변경해주세요.</p>
         </div>
+        <br>
         <div id="btn">
             <button class="btn" type="submit" id="btn_send" onclick="location.href='/login/pwdChange'"><span style="color: #fff;font-size: large;">비밀번호 변경</span></button>&nbsp;&nbsp;
         </div>
@@ -55,48 +59,6 @@
 <%@ include file="../common/footer.jsp"%>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script>
-    const severValResult = {};
-    <c:forEach items="${errors}" var="err">
-    if(document.getElementById("div_err_${err.getField()}") != null ) {
-        document.getElementById("div_err_${err.getField()}").innerHTML = "<span style='color: red'>${err.getField()}를 다시 입력해주세요. </span>";
-        document.getElementById("div_err_${err.getField()}").style.display = "block";
-    }
-    severValResult['${err.getField()}'] = '${err.defaultMessage}';
-    </c:forEach>
-
-    console.log(severValResult);
-
-    //아이디 중복체크
-    function idCheck() {
-        let user_id = $('#user_id').val();
-
-        if(user_id != null || !(user_id.isEmpty()) || user_id != "") {
-            $.ajax({
-                type: "post",
-                url: "/login/pwdSearch",
-                data: {"user_id": user_id},
-                success: function (data) {
-                    console.log(user_id);
-
-                    if (data == "N") {
-                        let msg = "사용 가능한 아이디입니다.";
-                        $("#result_checkId").html(msg).css("color", "green");
-                        $("#div_err_user_id").css("display", "none");
-                        //alert("사용 가능한 아이디입니다.");
-                    } else {
-                        let msg = "이미 사용 중인 아이디입니다.";
-                        $("#result_checkId").html(msg).css("color", "red");
-                        $("#div_err_user_id").css("display", "none");
-                        //alert("중복 아이디입니다.");
-                    }
-
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
-        }
-    }
 
 </script>
 </body>

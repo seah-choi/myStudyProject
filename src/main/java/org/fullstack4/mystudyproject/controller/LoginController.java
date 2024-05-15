@@ -6,6 +6,7 @@ import org.fullstack4.mystudyproject.dto.LoginDTO;
 import org.fullstack4.mystudyproject.dto.MemberDTO;
 import org.fullstack4.mystudyproject.service.LoginServiceIf;
 import org.fullstack4.mystudyproject.util.CookieUtil;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,11 +32,11 @@ public class LoginController {
 
     @PostMapping("/login")
     public String loginPost(Model model, LoginDTO memberDTO,
-                            @RequestParam(name="sava_id", defaultValue = "") String save_id,
-                            HttpServletResponse resp,
-                            HttpServletRequest req,
-                            BindingResult bindingResult,
-                            RedirectAttributes redirectAttributes){
+                                       @RequestParam(name="sava_id", defaultValue = "") String save_id,
+                                       HttpServletResponse resp,
+                                       HttpServletRequest req,
+                                       BindingResult bindingResult,
+                                       RedirectAttributes redirectAttributes){
                 
         log.info("LoginController >> loginPost");
 
@@ -61,6 +62,10 @@ public class LoginController {
         return "redirect:/";
         }
         else{
+//            int login_fail = loginService.login_fail(loginMemberDTO.getUser_id());
+//            if(login_fail > 5){
+//                redirectAttributes.addFlashAttribute("loginFail","5회 이상 로그인 실패로 잠근 처리된 계정입니다. 관리자에게 문의해주세요.");
+//            } else{
             redirectAttributes.addFlashAttribute("loginErr", "아이디 혹은 비밀번호가 일치하지 않습니다.");
             return "redirect:/login/login";
         }
@@ -79,10 +84,12 @@ public class LoginController {
     public void pwdSearchGet(){}
 
     @PostMapping("/pwdSearch")
-    @ResponseBody
-    public String pwdSearchPost(@RequestParam("user_id") String user_id){
-        int result = loginService.pwdSearch(user_id);
-        if(result > 0){
+    public String pwdSearchPost(@RequestParam("user_id") String user_id
+                                ,HttpSession session){
+        String pwd = loginService.pwdSearch(user_id);
+        if(pwd != null){
+            session.setAttribute("id",user_id);
+            session.setAttribute("pwd", pwd);
             return "redirect:/login/pwdSearchResult";
         } else {
             return "redirect:/login/pwdSearch";
@@ -90,14 +97,17 @@ public class LoginController {
     }
 
     @GetMapping("/pwdSearchResult")
-    public void pwdSearchResult(){}
+    public void pwdSearchResult(Model model){}
 
     @GetMapping("/pwdChange")
-    public void pwdChangeGet(){}
+    public void pwdChangeGet(HttpSession session){
+        session.getAttribute("id");
+    }
 
     @PostMapping("/pwdChange")
-    public String pwdChangePost(@RequestParam(name="user_id", defaultValue = "")String user_id){
-        int result = loginService.pwdChange(user_id);
+    public String pwdChangePost(@RequestParam(name="user_id", defaultValue = "")String user_id,
+                                @RequestParam(name="password", defaultValue = "") String newpassword){
+        int result = loginService.pwdChange(user_id, newpassword);
         log.info("result : "+result);
         if(result > 0 ) {
             return "redirect:/login/login";
@@ -128,6 +138,6 @@ public class LoginController {
                 throw new RuntimeException(e);
             }
         }
-
     }
+
 }

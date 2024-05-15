@@ -21,4 +21,9 @@
         UPDATE tbl_member SET password = #{password}
         WHERE user_id = #{user_id}
     </update>
+
+    <update id="login_fail">
+        UPDATE tbl_member SET login_fail = login_fail + 1
+        WHERE user_id = #{user_id}
+    </update>
 </mapper>

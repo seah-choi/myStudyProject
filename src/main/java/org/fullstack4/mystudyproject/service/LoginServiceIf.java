@@ -5,7 +5,8 @@ import org.fullstack4.mystudyproject.dto.MemberDTO;
 
 public interface LoginServiceIf {
     LoginDTO login(String id, String pwd);
-    int pwdChange(String id);
+    int pwdChange(String id, String pwd);
     int idCheck(String user_id);
-    int pwdSearch(String id);
+    String pwdSearch(String id);
+    int login_fail(String id);
 }

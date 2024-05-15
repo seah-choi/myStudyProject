@@ -50,6 +50,7 @@
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <%@include file="../common/header.jsp"%>
 <body>
@@ -70,7 +71,7 @@
                 <button class="btn btn-primary" type="button" id="button-addon2" style="height: 55px;" id="idCheck" onclick="idCheck();">중복확인</button>
             </div>
         </div>
-        <div class="result" style="font-size: small;"></div>
+        <div class="result" id="result_checkId" style="font-size: small;"></div>
         <div class="form-floating mb-3" style="display: flex">
             <input type="password" class="form-control" name="password" id="password" maxlength="100" placeholder="비밀번호 입력">
             <label for="password">비밀번호 입력</label>
@@ -209,12 +210,12 @@
                         let msg = "사용 가능한 아이디입니다.";
                         $("#result_checkId").html(msg).css("color", "green");
                         $("#div_err_user_id").css("display", "none");
-                        alert("사용 가능한 아이디입니다.");
+                        //alert("사용 가능한 아이디입니다.");
                     } else {
                         let msg = "이미 사용 중인 아이디입니다.";
                         $("#result_checkId").html(msg).css("color", "red");
                         $("#div_err_user_id").css("display", "none");
-                        alert("중복 아이디입니다.");
+                        //alert("중복 아이디입니다.");
                     }
 
                 },
@@ -226,15 +227,18 @@
     }
 
     //아이디 체크
-    document.querySelector("#user_id").addEventListener("keyup", function (){
+    document.querySelector("#user_id").addEventListener("keyup", function (e){
+        e.preventDefault();
         let idCheck= /^(?=.*[a-z])(?=.*[0-9]).{5,15}$/;
-        let id = document.querySelector("#user_id");
+        let id = document.querySelector("#user_id").value;
         let result = document.querySelector(".result");
 
         if(idCheck.test(id)){
             result.innerHTML ="";
         } else{
             result.innerHTML = "* 5자 이상의 영소문자, 숫자를 입력해주세요."
+            result.style.color="red";
+            return false;
         }
     })
     //비밀번호 체크
