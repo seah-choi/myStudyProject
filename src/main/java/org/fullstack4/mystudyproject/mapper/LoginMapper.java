@@ -8,4 +8,6 @@ public interface LoginMapper {
     LoginVO login(@Param("user_id") String id, @Param("password") String pwd);
     void logout(String id);
     int pwdChange(String id);
+    int idCheck(String user_id);
+    int pwdSearch(@Param("user_id") String id, @Param("password") String pwd);
 }

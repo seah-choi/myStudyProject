@@ -12,4 +12,13 @@
         UPDATE tbl_member SET password = #{password}
         WHERE user_id = #{user_id}
     </update>
+
+    <select id="idCheck">
+        SELECT COUNT(*) FROM tbl_member WHERE user_id = #{user_id}
+    </select>
+
+    <update id="pwdSearch">
+        UPDATE tbl_member SET password = #{password}
+        WHERE user_id = #{user_id}
+    </update>
 </mapper>

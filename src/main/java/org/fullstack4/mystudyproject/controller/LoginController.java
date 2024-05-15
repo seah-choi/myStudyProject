@@ -9,15 +9,13 @@ import org.fullstack4.mystudyproject.util.CookieUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 @Log4j2
 @Controller
@@ -81,8 +79,14 @@ public class LoginController {
     public void pwdSearchGet(){}
 
     @PostMapping("/pwdSearch")
-    public void pwdSearchPost(){
-
+    @ResponseBody
+    public String pwdSearchPost(@RequestParam("user_id") String user_id){
+        int result = loginService.pwdSearch(user_id);
+        if(result > 0){
+            return "redirect:/login/pwdSearchResult";
+        } else {
+            return "redirect:/login/pwdSearch";
+        }
     }
 
     @GetMapping("/pwdSearchResult")
@@ -101,5 +105,29 @@ public class LoginController {
             log.info("변경 실패");
             return "redirect:/login/pwdChange";
         }
+    }
+
+    @ResponseBody
+    @PostMapping("/idCheck")
+    public void idCheck(@RequestParam(name = "user_id", defaultValue = "") String user_id,
+                        HttpServletResponse resp){
+        int result = loginService.idCheck(user_id);
+        log.info("result :"+ result);
+        log.info("user_id:"+user_id);
+        if(result > 0){
+            resp.setContentType("application/json; charset=utf-8");
+            try{
+                resp.getWriter().print("{\"result\":\"Y\"}");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            try {
+                resp.getWriter().print("{\"result\":\"N\"}");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 }
