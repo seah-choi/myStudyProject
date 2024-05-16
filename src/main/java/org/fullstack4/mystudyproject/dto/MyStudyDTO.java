@@ -3,6 +3,7 @@ package org.fullstack4.mystudyproject.dto;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,4 +23,6 @@ public class MyStudyDTO {
     private String field;
     private int like;
     private String image;
+
+    private List<String> receiveIds;
 }

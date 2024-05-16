@@ -10,6 +10,7 @@ import org.checkerframework.checker.index.qual.Positive;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.Arrays;
+import java.util.List;
 
 @Log4j2
 @Data
@@ -62,6 +63,7 @@ public class PageRequestDTO {
     private String order;
     private String count;
     private String user_id;
+    private List<String> receiveIds;
 
     public void setTotal_count(int total_count) {
         this.total_count = total_count;

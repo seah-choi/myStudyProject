@@ -3,6 +3,7 @@ package org.fullstack4.mystudyproject.domain;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Builder
@@ -23,4 +24,6 @@ public class MyStudyVO {
     private String field;
     private int like;
     private String image;
+    private ShareVO shareVO;
+    private List<String> receiveIds;
 }

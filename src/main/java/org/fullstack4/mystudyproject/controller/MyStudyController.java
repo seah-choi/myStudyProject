@@ -46,6 +46,7 @@ public class MyStudyController {
     public void view(Model model, @RequestParam(name="study_idx", defaultValue = "0") int study_idx) {
         MyStudyDTO myStudyDTO = myStudyService.view(study_idx);
         model.addAttribute("myStudy", myStudyDTO);
+        model.addAttribute("receiveIds", myStudyDTO.getReceiveIds());
     }
 
     @GetMapping("/regist")

@@ -34,6 +34,7 @@ public class PageResponseDTO<E> {
     private String order;
     private String count;
     private String user_id;
+    private List<String> receiveIds;
 
     PageResponseDTO() {}
 
@@ -61,12 +62,14 @@ public class PageResponseDTO<E> {
         this.user_id = requestDTO.getUser_id();
         order = requestDTO.getOrder()!=null?requestDTO.getOrder():null;
         count = requestDTO.getOrder()!=null?requestDTO.getOrder():null;
+        this.receiveIds = requestDTO.getReceiveIds();
 
         if(search_type != null) {
             this.sType = Arrays.toString(search_type).replace("[", "").replace("]", "");
         } else {
             this.sType = "";
         }
+
 
         StringBuilder sb = new StringBuilder("?page_size="+ this.page_size);
         if(search_type != null ) {

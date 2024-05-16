@@ -62,7 +62,7 @@
         <thead>
         <tr>
             <th scope="col">공유한 사람</th>
-            <td colspan="6">${myStudy.share_people}</td>
+            <td colspan="6">${receive_id}</td>
         </tr>
         </thead>
         <tbody>

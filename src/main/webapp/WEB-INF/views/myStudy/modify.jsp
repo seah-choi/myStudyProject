@@ -25,7 +25,7 @@
 <body class="text-center">
 <div id="list">
     <div style="display: flex;margin-bottom: 20px;">
-        <p style="font-size: 20px;font-weight: bold;"><a href="/myStudy/list">나의 학습</a> > <a href="/myStudy/regist">나의 학습 수정</a> </p>
+        <p style="font-size: 20px;font-weight: bold;"><a href="/myStudy/list">나의 학습</a> > <a href="/myStudy/modify?study_idx=${myStudy.study_idx}">나의 학습 수정</a> </p>
     </div>
     <form id="frm" name="frm" action="/myStudy/modify" method="post">
         <input type="hidden" id="study_idx" name="study_idx" value="${myStudy.study_idx}">
@@ -56,11 +56,11 @@
             <tr>
                 <td colspan="3">
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="display_status" id="Y" value="${myStudy.display_status}" ${myStudy.display_status == "Y" ?'checked' :""}>
+                        <input class="form-check-input" type="radio" name="display_status" id="Y" value="Y" ${myStudy.display_status == "Y" ?'checked' :""}>
                         <label class="form-check-label" for="Y">Y</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="display_status" id="N" value="${myStudy.display_status}" ${myStudy.display_status == "N" ?'checked' :""}>
+                        <input class="form-check-input" type="radio" name="display_status" id="N" value="N" ${myStudy.display_status == "N" ?'checked' :""}>
                         <label class="form-check-label" for="N">N</label>
                     </div>
                 </td>
