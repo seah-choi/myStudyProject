@@ -32,7 +32,7 @@ public class PageRequestDTO {
     @Builder.Default
     @PositiveOrZero
     @Min(value=1)
-    private int page_size = 10;
+    private int page_size = 30;
     @Builder.Default
     @PositiveOrZero
     @Min(value=1)
@@ -59,6 +59,8 @@ public class PageRequestDTO {
     private String search_date1;
     private String search_date2;
 
+    private String order;
+    private String count;
     private String user_id;
 
     public void setTotal_count(int total_count) {

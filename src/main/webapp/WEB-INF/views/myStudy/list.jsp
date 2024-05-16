@@ -18,7 +18,7 @@
     <style>
         #list{
             width: 1100px;
-            margin: 300px auto 0;
+            margin: 150px auto 0;
         }
         #search{
             display: flex;
@@ -29,7 +29,10 @@
 <%@ include file="../common/header.jsp"%>
 <body class="text-center" id="content">
 <div id="list">
-    <form name="frm" id="frm" action="myStudy/list" method="get">
+    <div style="display: flex;margin-bottom: 20px;">
+        <p style="font-size: 20px;font-weight: bold;"><a href="/myStudy/list">나의 학습</a> > <a href="/myStudy/list">나의 학습 리스트</a> </p>
+    </div>
+    <form name="frm" id="frm" action="/myStudy/list" method="get">
         <div class="form-floating mb-3" style="display: flex;">
             <input type="date" class="form-control" name="search_date1" id="search_date1" maxlength="100" placeholder="등록일 시작" value='<c:out value="${pageRequestDTO.search_date1}"/>' style="width: 400px; margin-right: 5px;">
             <label for="search_date1">등록일 시작</label>
@@ -41,9 +44,9 @@
             </div>
         </div>
         <div id="search">
-        <select class="form-select form-select-sm" aria-label="Small select example" style="width: 100px;">
-            <option value="t">제목</option>
-            <option value="c">글내용</option>
+        <select class="form-select form-select-sm" aria-label="Small select example" name="search_type" style="width: 100px;">
+            <option value="t" ${search_type=="t" ? "selected" : ""}>제목</option>
+            <option value="u" ${search_type=="u" ? "selected" : ""}>글내용</option>
         </select>
 <%--        <div class="form-check form-check-inline">--%>
 <%--            <c:set value="${fn:join(responseDTO.search_type,'')}" var="search_type"/>--%>
@@ -56,7 +59,31 @@
 <%--        </div>--%>
         <input class="form-control" type="text" placeholder="검색어" aria-label="default input example" name="search_word" id="search_word" value='<c:out value="${pageRequestDTO.search_word}"/>' style="width: 805px;">
         </div>
-        <br><br>
+        <br>
+        <div style="display: flex;justify-content: flex-end;">
+            <button type="button" class="btn btn-outline-primary" onclick="location.href='/myStudy/regist'">학습등록</button>
+        </div>
+        <br>
+        <div style="display: flex;justify-content: space-between;margin-bottom: 10px">
+            <div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="order" id="new" value="new" ${order=="new" ? "checked" : ""}>
+                <label class="form-check-label" for="new">최신순</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="order" id="like" value="like" ${order=="like" ? "checked" : ""}>
+                <label class="form-check-label" for="like">좋아요순</label>
+            </div>
+            </div>
+            <div style="display: flex">
+                <select name="page_size" onchange="this.frm.submit()" class="form-select form-select-sm" aria-label="Small select example" style="width: 70px;">
+                    <option value="30" <c:if test="${responseDTO.page_size eq '30'}">selected</c:if>>30</option>
+                    <option value="50" <c:if test="${responseDTO.page_size eq '50'}">selected</c:if>>50</option>
+                    <option value="100" <c:if test="${responseDTO.page_size eq '100'}">selected</c:if>>100</option>
+                </select>
+                <span style="margin-top: 5px;">개씩 보기</span>
+            </div>
+        </div>
     <c:choose>
         <c:when test="${not empty responseDTO and not empty responseDTO.dtoList}">
                 <table class="table table-hover">
@@ -116,6 +143,60 @@
 </div>
 <%@ include file="../common/footer.jsp"%>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 현재 URL을 분석합니다.
+        var url = new URL(window.location);
+
+        // 'order' 파라미터의 값을 얻습니다.
+        var orderParam = url.searchParams.get('order');
+
+        // 'order' 파라미터가 없거나 비어있는 경우, 기본값을 'new'로 설정합니다.
+        if (!orderParam) {
+            url.searchParams.set('order', 'new');
+            window.location.href = url.href;
+        }
+
+        // 'order' 라디오 버튼의 선택 변경을 감지합니다.
+        document.querySelectorAll('input[name="order"]').forEach(function(radioButton) {
+            radioButton.addEventListener('change', function() {
+                // 선택된 값(value)을 얻습니다.
+                var selectedOrder = this.value;
+
+                // 'order' 파라미터를 현재 선택된 값으로 설정(또는 업데이트)합니다.
+                url.searchParams.set('order', selectedOrder);
+
+                // 변경된 URL로 페이지를 리디렉션합니다.
+                window.location.href = url.href;
+            });
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var url = new URL(window.location);
+
+        // 'order' 파라미터의 값을 얻습니다.
+        var countParam = url.searchParams.get('count');
+
+        // 'order' 파라미터가 없거나 비어있는 경우, 기본값을 'new'로 설정합니다.
+        if (!countParam) {
+            url.searchParams.set('count', '30');
+            window.location.href = url.href;
+        }
+
+        // 'order' select 메뉴의 선택 변경을 감지합니다.
+        document.querySelector('select[name="count"]').addEventListener('change', function() {
+            // 선택된 값(value)을 얻습니다.
+            var selectedOrder = this.value;
+
+            // 'order' 파라미터를 현재 선택된 값으로 설정(또는 업데이트)합니다.
+            url.searchParams.set('count', selectedOrder);
+
+            // 변경된 URL로 페이지를 리디렉션합니다.
+            window.location.href = url.href;
+        });
+    });
+</script>
 </body>
 </html>
 

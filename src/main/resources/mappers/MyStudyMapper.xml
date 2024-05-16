@@ -4,14 +4,45 @@
         "http;//mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.fullstack4.mystudyproject.mapper.MyStudyMapper">
 
+    <sql id="whereCondition">
+        <where>
+            <if test="search_type != null">
+                <foreach collection="search_type" item="type" open="(" close=")" separator=" OR ">
+                    <if test="type == 't'.toString()">
+                        title LIKE CONCAT('%', #{search_word}, '%')
+                    </if>
+                    <if test="type == 'u'.toString()">
+                        content LIKE CONCAT('%', #{search_word}, '%')
+                    </if>
+                </foreach>
+            </if>
+            <if test="search_date1 != null and search_date1 !='' and search_date1 !='null'">
+                AND display_date >= #{search_date1}
+            </if>
+            <if test="search_date2 != null and search_date2 !='' and search_date2 !='null'">
+                AND display_date <![CDATA[<=]]> #{search_date2}
+            </if>
+        </where>
+    </sql>
+<!--    <sql id="order">-->
+<!--        <if test="order.equals('new')">-->
+<!--            order by reg_date desc-->
+<!--        </if>-->
+<!--        <if test="order.equals('like')">-->
+<!--            order by `like` desc-->
+<!--        </if>-->
+<!--    </sql>-->
+
     <select id="total_count" resultType="int">
-        SELECT COUNT(*) FROM tbl_mystudy WHERE user_id = #{user_id}
+        SELECT COUNT(*) FROM tbl_mystudy
+        <include refid="whereCondition"></include>
     </select>
 
     <select id="list" resultType="org.fullstack4.mystudyproject.domain.MyStudyVO">
         SELECT study_idx, title, display_status, display_start, display_end, `like`, reg_date
         FROM tbl_mystudy
-        ORDER BY study_idx DESC
+        <include refid="whereCondition"></include>
+        order by reg_date desc
         LIMIT #{page_skip_count}, #{page_size}
     </select>
 
@@ -33,6 +64,7 @@
         UPDATE tbl_mystudy SET content=#{content}, title=#{title}, display_status=#{display_status},
         display_start=#{display_start}, display_end=#{display_end}, image=#{image}, hashtag=#{hashtag},
         field=#{field}, share_people=#{share_people}
+        WHERE study_idx = #{study_idx}
     </update>
 
     <delete id="delete">

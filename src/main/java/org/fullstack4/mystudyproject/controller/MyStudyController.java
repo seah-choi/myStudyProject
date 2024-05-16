@@ -34,11 +34,12 @@ public class MyStudyController {
             log.info("BookController >> list errors");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
+        log.info("BookController >> list");
 
         PageResponseDTO<MyStudyDTO> responseDTO = myStudyService.list(pageRequestDTO);
         model.addAttribute("responseDTO", responseDTO);
-        System.out.println("responseDTO : "+responseDTO);
-        System.out.println("responseDTO : "+responseDTO.getDtoList());
+        model.addAttribute("order", responseDTO.getOrder());
+        model.addAttribute("count", responseDTO.getCount());
     }
 
     @GetMapping("/view")

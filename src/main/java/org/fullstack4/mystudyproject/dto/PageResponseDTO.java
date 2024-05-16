@@ -31,6 +31,8 @@ public class PageResponseDTO<E> {
 
     private String sType;
 
+    private String order;
+    private String count;
     private String user_id;
 
     PageResponseDTO() {}
@@ -57,6 +59,8 @@ public class PageResponseDTO<E> {
         this.search_date1 = requestDTO.getSearch_date1();
         this.search_date2 = requestDTO.getSearch_date2();
         this.user_id = requestDTO.getUser_id();
+        order = requestDTO.getOrder()!=null?requestDTO.getOrder():null;
+        count = requestDTO.getOrder()!=null?requestDTO.getOrder():null;
 
         if(search_type != null) {
             this.sType = Arrays.toString(search_type).replace("[", "").replace("]", "");
@@ -73,6 +77,9 @@ public class PageResponseDTO<E> {
         }
         if(search_date2 != null ) {
             sb.append("&search_date2="+search_date2);
+        }
+        if(order != null) {
+            sb.append("&order="+order);
         }
 
         this.linkParams = sb.toString();

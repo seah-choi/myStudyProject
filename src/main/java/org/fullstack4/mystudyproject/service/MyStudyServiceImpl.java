@@ -1,6 +1,7 @@
 package org.fullstack4.mystudyproject.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.fullstack4.mystudyproject.domain.MyStudyVO;
 import org.fullstack4.mystudyproject.dto.MyStudyDTO;
 import org.fullstack4.mystudyproject.dto.PageRequestDTO;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 @RequiredArgsConstructor
 public class MyStudyServiceImpl implements MyStudyServiceIf{
@@ -25,6 +27,7 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
 
     @Override
     public PageResponseDTO<MyStudyDTO> list(PageRequestDTO pageRequestDTO) {
+        log.info(pageRequestDTO);
         List<MyStudyVO> voList = myStudyMapper.list(pageRequestDTO);
         List<MyStudyDTO> dtoList = voList.stream().map(vo->modelMapper.map(vo,MyStudyDTO.class)).collect(Collectors.toList());
         int total_count = myStudyMapper.total_count(pageRequestDTO);
