@@ -36,7 +36,7 @@ public class PageResponseDTO<E> {
     PageResponseDTO() {}
 
     @Builder(builderMethodName = "withAll")
-    public PageResponseDTO(PageRequestDTO requestDTO, List<E> dtoList, int total_count, LoginDTO loginDTO) {
+    public PageResponseDTO(PageRequestDTO requestDTO, List<E> dtoList, int total_count) {
         log.info("================");
         log.info("PageRequestDTO START");
 
@@ -56,7 +56,7 @@ public class PageResponseDTO<E> {
         this.search_word = requestDTO.getSearch_word();
         this.search_date1 = requestDTO.getSearch_date1();
         this.search_date2 = requestDTO.getSearch_date2();
-        this.user_id = loginDTO.getUser_id();
+        this.user_id = requestDTO.getUser_id();
 
         if(search_type != null) {
             this.sType = Arrays.toString(search_type).replace("[", "").replace("]", "");

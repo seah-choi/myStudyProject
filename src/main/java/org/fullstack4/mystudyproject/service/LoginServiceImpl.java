@@ -46,9 +46,11 @@ public class LoginServiceImpl implements LoginServiceIf{
 
     @Override
     public String pwdSearch(String id) {
+        System.out.println("LoginServiceImpl>> pwdSearch");
         String tempPassword = UUID.randomUUID().toString().substring(0, 10);
         int result = loginMapper.pwdSearch(id, tempPassword);
         if(result > 0){
+            System.out.println("result = " + result);
             return tempPassword;
         } else {
             return null;

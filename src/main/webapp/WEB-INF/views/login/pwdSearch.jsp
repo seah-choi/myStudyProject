@@ -79,32 +79,32 @@
 <script>
 
     //아이디 중복체크
-    function idCheck() {
-        let user_id = $('#user_id').val();
-
-        if(user_id != null || !(user_id.isEmpty()) || user_id != "") {
-            $.ajax({
-                type: "post",
-                url: "/login/idCheck",
-                data: {"user_id": user_id},
-                contentType: "application/json; charset=utf-8",
-                success: function (data) {
-                    console.log(user_id);
-
-                    if (data == "N") {
-                        let msg = "일치하는 아이디가 없습니다..";
-                        $("#result").html(msg).css("color", "red");
-                        //$("#result").css("display", "none");
-                     } else {
-                     }
-
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
-        }
-    }
+    // function idCheck() {
+    //     let user_id = $('#user_id').val();
+    //
+    //     if(user_id != null || !(user_id.isEmpty()) || user_id != "") {
+    //         $.ajax({
+    //             type: "post",
+    //             url: "/login/idCheck",
+    //             data: {"user_id": user_id},
+    //             contentType: "application/json; charset=utf-8",
+    //             success: function (data) {
+    //                 console.log(user_id);
+    //
+    //                 if (data == "N") {
+    //                     let msg = "일치하는 아이디가 없습니다..";
+    //                     $("#result").html(msg).css("color", "red");
+    //                     //$("#result").css("display", "none");
+    //                  } else {
+    //                  }
+    //
+    //             },
+    //             error: function (error) {
+    //                 alert(error);
+    //             }
+    //         });
+    //     }
+    // }
 
     //임시비밀번호 발급
     $(document).ready(function(){

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html>
 <head>
     <title>나의 학습</title>
@@ -16,14 +17,46 @@
     <meta name="theme-color" content="#7952b3">
     <style>
         #list{
-            margin-top: 300px;
+            width: 1100px;
+            margin: 300px auto 0;
+        }
+        #search{
+            display: flex;
         }
     </style>
     <link href="signin.css" rel="stylesheet">
 </head>
 <%@ include file="../common/header.jsp"%>
-<body class="text-center">
+<body class="text-center" id="content">
 <div id="list">
+    <form name="frm" id="frm" action="myStudy/list" method="get">
+        <div class="form-floating mb-3" style="display: flex;">
+            <input type="date" class="form-control" name="search_date1" id="search_date1" maxlength="100" placeholder="등록일 시작" value='<c:out value="${pageRequestDTO.search_date1}"/>' style="width: 400px; margin-right: 5px;">
+            <label for="search_date1">등록일 시작</label>
+            <input type="date" class="form-control" name="search_date2" id="search_date2" maxlength="100" placeholder="등록일 끝" value='<c:out value="${pageRequestDTO.search_date2}"/>' style="width: 400px">
+            <label for="search_date2" style="margin-left: 405px;">등록일 끝</label>
+            <div id="btn" style="margin-left: 20px; margin-top: 5px;">
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100px;">Search</button>
+                <button type="reset" class="btn btn-secondary btn-lg" style="width: 100px;">Clear</button>
+            </div>
+        </div>
+        <div id="search">
+        <select class="form-select form-select-sm" aria-label="Small select example" style="width: 100px;">
+            <option value="t">제목</option>
+            <option value="c">글내용</option>
+        </select>
+<%--        <div class="form-check form-check-inline">--%>
+<%--            <c:set value="${fn:join(responseDTO.search_type,'')}" var="search_type"/>--%>
+<%--            <input class="form-check-input" type="checkbox" id="search_type_1" name="search_type" value="t" <c:if test='${fn:contains(search_type, "t")}'>checked</c:if>>--%>
+<%--            <label class="form-check-label" for="search_type_1">제목</label>--%>
+<%--        </div>--%>
+<%--        <div class="form-check form-check-inline">--%>
+<%--            <input class="form-check-input" type="checkbox" id="search_type_2" name="search_type" value="u" <c:if test='${fn:contains(search_type, "u")}'>checked</c:if>>--%>
+<%--            <label class="form-check-label" for="search_type_2">글내용</label>--%>
+<%--        </div>--%>
+        <input class="form-control" type="text" placeholder="검색어" aria-label="default input example" name="search_word" id="search_word" value='<c:out value="${pageRequestDTO.search_word}"/>' style="width: 805px;">
+        </div>
+        <br><br>
     <c:choose>
         <c:when test="${not empty responseDTO and not empty responseDTO.dtoList}">
                 <table class="table table-hover">
@@ -41,7 +74,7 @@
                     <c:forEach items="${responseDTO.dtoList}" var="list">
                     <tr>
                         <th scope="row">${list.study_idx}</th>
-                        <td>${list.title}</td>
+                        <td><a href="/myStudy/view?study_idx=${list.study_idx}">${list.title}</a></td>
                         <td>${list.reg_date}</td>
                         <td>${list.like}</td>
                         <td>${list.display_status}</td>
@@ -55,7 +88,7 @@
             <p>등록된 글이 없습니다.</p>
         </c:otherwise>
     </c:choose>
-
+    </form>
 <nav>
     <ul class="pagination justify-content-center">
         <li class="page-item

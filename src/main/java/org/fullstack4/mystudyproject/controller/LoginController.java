@@ -81,11 +81,14 @@ public class LoginController {
     }
 
     @GetMapping("/pwdSearch")
-    public void pwdSearchGet(){}
+    public void pwdSearchGet(){
+        System.out.println("pwdsearch get");
+    }
 
     @PostMapping("/pwdSearch")
     public String pwdSearchPost(@RequestParam("user_id") String user_id
                                 ,HttpSession session){
+        System.out.println("pwdsearch posts");
         String pwd = loginService.pwdSearch(user_id);
         if(pwd != null){
             session.setAttribute("id",user_id);
@@ -122,6 +125,7 @@ public class LoginController {
     public void idCheck(@RequestParam(name = "user_id", defaultValue = "") String user_id,
                         HttpServletResponse resp){
         int result = loginService.idCheck(user_id);
+        System.out.println("id check : "+result);
         log.info("result :"+ result);
         log.info("user_id:"+user_id);
         if(result > 0){
