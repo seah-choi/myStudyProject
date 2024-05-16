@@ -29,6 +29,7 @@
     </div>
     <form id="frm" name="frm" action="/myStudy/regist" method="post">
         <input type="hidden" id="user_id" name="user_id" value="${sessionScope.user_id}">
+        <input type="hidden" id="study_idx" name="study_idx" value="${shareDTO.study_idx}">
         <table class="table table-bordered border-primary-subtle">
             <thead>
             <tr>
@@ -74,7 +75,7 @@
             </tr>
             <tr>
                 <th scope="col" colspan="3">공유한 사람</th>
-                <td colspan="4"><input type="text" id="share_people" name="share_people"></td>
+                <td colspan="4"><input type="text" id="name" name="name"></td>
             </tr>
             <tr>
                 <th scope="col" colspan="3">분야</th>

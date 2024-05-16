@@ -11,4 +11,5 @@ public class ShareDTO {
     private String user_id;
     private int study_idx;
     private String share_id;
+    private String name;
 }

@@ -62,7 +62,11 @@
         <thead>
         <tr>
             <th scope="col">공유한 사람</th>
-            <td colspan="6">${receive_id}</td>
+            <td colspan="6">
+                <c:forEach var="shareDTO" items="${shareDTOList}">
+                    ${shareDTO.name}(${shareDTO.user_id})&nbsp;&nbsp;
+                </c:forEach>
+            </td>
         </tr>
         </thead>
         <tbody>

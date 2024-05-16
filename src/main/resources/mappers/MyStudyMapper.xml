@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http;//mybatis.org/dtd/mybatis-3-mapper.dtd">
+        "http://mybatis.org/schema/mybatis-3-mapper.dtd">
 <mapper namespace="org.fullstack4.mystudyproject.mapper.MyStudyMapper">
 
     <sql id="whereCondition">
@@ -25,40 +25,24 @@
         </where>
     </sql>
 
-    <resultMap id="MyStudyVO" type="org.fullstack4.mystudyproject.domain.MyStudyVO">
-        <id column="study_idx" property="study_idx"/>
-        <result column="title" property="title"/>
-        <result column="content" property="content"/>
-        <result column="display_status" property="display_status"/>
-        <result column="display_start" property="display_start"/>
-        <result column="display_end" property="display_end"/>
-        <result column="like" property="like"/>
-        <result column="reg_date" property="reg_date"/>
-        <result column="image" property="image"/>
-        <result column="hashtag" property="hashtag"/>
-        <result column="field" property="field"/>
-        <result column="share_people" property="share_people"/>
-        <collection property="receiveIds" ofType="String">
-            <result column="receive_id" />
-        </collection>
-        <association property="shareVO" resultMap="ShareVO"/>
-    </resultMap>
-
-
-    <resultMap id="ShareVO" type="org.fullstack4.mystudyproject.domain.ShareVO">
-        <id column="share_idx" property="share_idx"/>
-        <result column="user_id" property="user_id"/>
-        <result column="study_idx" property="study_idx"/>
-        <result column="share_id" property="share_id"/>
-    </resultMap>
-
-    <select id="view" resultMap="MyStudyVO">
+    <select id="view" resultType="org.fullstack4.mystudyproject.domain.MyStudyVO">
         SELECT tm.study_idx, tm.title, tm.content, tm.display_status, tm.display_start, tm.display_end, tm.`like`, tm.reg_date
-        ,tm.image, tm.hashtag, tm.field, tm.share_people, ts.user_id AS receive_id
+        ,tm.image, tm.hashtag, tm.field, tm.share_people
         FROM tbl_mystudy as tm
-        INNER JOIN tbl_share as ts ON ts.study_idx = tm.study_idx
         WHERE tm.study_idx = #{study_idx}
     </select>
+
+    <select id="shareList" resultType="org.fullstack4.mystudyproject.domain.ShareVO">
+        SELECT ts.share_idx, ts.user_id, tm.name, ts.study_idx
+        FROM tbl_share as ts inner join tbl_member as tm
+        ON ts.user_id = tm.user_id
+        WHERE ts.study_idx = #{study_idx}
+    </select>
+
+    <insert id="shareRegist">
+        INSERT INTO tbl_share(user_id, study_idx,share_id)
+        VALUES(#{user_id},#{study_idx},#{share_id})
+    </insert>
 
     <select id="total_count" resultType="int">
         SELECT COUNT(*) FROM tbl_mystudy
@@ -72,6 +56,7 @@
         order by reg_date desc
         LIMIT #{page_skip_count}, #{page_size}
     </select>
+
 
     <insert id="regist">
         INSERT INTO tbl_mystudy(user_id, title,content, display_status, display_start, display_end, reg_date

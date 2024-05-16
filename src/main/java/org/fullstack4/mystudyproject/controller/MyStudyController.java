@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import org.fullstack4.mystudyproject.dto.MyStudyDTO;
 import org.fullstack4.mystudyproject.dto.PageRequestDTO;
 import org.fullstack4.mystudyproject.dto.PageResponseDTO;
+import org.fullstack4.mystudyproject.dto.ShareDTO;
 import org.fullstack4.mystudyproject.service.MyStudyServiceIf;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Log4j2
 @Controller
@@ -45,15 +47,19 @@ public class MyStudyController {
     @GetMapping("/view")
     public void view(Model model, @RequestParam(name="study_idx", defaultValue = "0") int study_idx) {
         MyStudyDTO myStudyDTO = myStudyService.view(study_idx);
+        List<ShareDTO> shareDTOList = myStudyService.shareList(study_idx);
+        model.addAttribute("shareDTOList", shareDTOList);
         model.addAttribute("myStudy", myStudyDTO);
         model.addAttribute("receiveIds", myStudyDTO.getReceiveIds());
     }
 
     @GetMapping("/regist")
-    public void registGet() {}
+    public void registGet(ShareDTO shareDTO,Model model) {
+        model.addAttribute("shareDTO", shareDTO);
+    }
 
     @PostMapping("/regist")
-    public String registPost(MyStudyDTO myStudyDTO,BindingResult bindingResult, RedirectAttributes redirectAttributes){
+    public String registPost(MyStudyDTO myStudyDTO,BindingResult bindingResult, RedirectAttributes redirectAttributes, ShareDTO shareDTO){
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
@@ -62,7 +68,8 @@ public class MyStudyController {
         }
 
         int result = myStudyService.regist(myStudyDTO);
-        if(result > 0 ){
+        int shareResult = myStudyService.shareRegist(shareDTO);
+        if(result > 0 && shareResult > 0){
             return "redirect:/myStudy/list";
         } else {
             return "redirect:/myStudy/regist";

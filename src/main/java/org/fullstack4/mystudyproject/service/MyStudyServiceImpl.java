@@ -3,9 +3,11 @@ package org.fullstack4.mystudyproject.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.fullstack4.mystudyproject.domain.MyStudyVO;
+import org.fullstack4.mystudyproject.domain.ShareVO;
 import org.fullstack4.mystudyproject.dto.MyStudyDTO;
 import org.fullstack4.mystudyproject.dto.PageRequestDTO;
 import org.fullstack4.mystudyproject.dto.PageResponseDTO;
+import org.fullstack4.mystudyproject.dto.ShareDTO;
 import org.fullstack4.mystudyproject.mapper.MyStudyMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,23 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
     @Override
     public int total_count(PageRequestDTO requestDTO) {
         return myStudyMapper.total_count(requestDTO);
+    }
+
+    @Override
+    public List<ShareDTO> shareList(int study_idx) {
+        List<ShareDTO> shareDTOList = myStudyMapper.shareList(study_idx).stream()
+                .map(vo -> modelMapper.map(vo, ShareDTO.class))
+                .collect(Collectors.toList());
+
+        log.info("BbsServiceImpl >> listAll() : "+ shareDTOList.toString());
+        return shareDTOList;
+    }
+
+    @Override
+    public int shareRegist(ShareDTO shareDTO) {
+        ShareVO shareVO = modelMapper.map(shareDTO, ShareVO.class);
+        int result = myStudyMapper.shareRegist(shareVO);
+        return result;
     }
 
     @Override
