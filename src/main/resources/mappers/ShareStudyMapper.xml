@@ -2,10 +2,11 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/schema/mybatis-3-mapper.dtd">
-<mapper namespace="org.fullstack4.mystudyproject.mapper.MyStudyMapper">
+<mapper namespace="org.fullstack4.mystudyproject.mapper.ShareStudyMapper">
 
     <sql id="whereCondition">
         <where>
+            user_id = #{user_id}
             <if test="search_type != null">
                 <foreach collection="search_type" item="type" open="(" close=")" separator=" OR ">
                     <if test="type == 't'.toString()">
@@ -22,7 +23,13 @@
             <if test="search_date2 != null and search_date2 !='' and search_date2 !='null'">
                 AND display_date <![CDATA[<=]]> #{search_date2}
             </if>
-            AND user_id = #{user_id}
+
+            <if test="order == 'send'">
+                AND share_id = #{user_id}
+            </if>
+            <if test="order == 'receive'">
+                AND receive_id = #{user_id}
+            </if>
         </where>
     </sql>
 
@@ -33,7 +40,7 @@
         WHERE tm.study_idx = #{study_idx}
     </select>
 
-    <select id="shareList" resultType="org.fullstack4.mystudyproject.domain.ShareVO">
+    <select id="shareList" resultType="org.fullstack4.mystudyproject.domain.MyStudyVO">
         SELECT ts.share_idx, ts.receive_id, tm.name, ts.study_idx
         FROM tbl_share as ts inner join tbl_member as tm
         ON ts.receive_id = tm.user_id
@@ -46,38 +53,12 @@
     </select>
 
     <select id="list" resultType="org.fullstack4.mystudyproject.domain.MyStudyVO">
-        SELECT study_idx, title, display_status, display_start, display_end, `like`, reg_date
-        FROM tbl_mystudy
+        SELECT tm.study_idx, tm.title, tm.display_status, tm.display_start, tm.display_end, tm.`like`, tm.reg_date, ts.receive_id, ts.share_id
+        FROM tbl_mystudy AS tm
+        INNER JOIN tbl_share AS ts ON tm.study_idx = ts.share_idx
         <include refid="whereCondition"></include>
         order by reg_date desc
         LIMIT #{page_skip_count}, #{page_size}
     </select>
-
-    <insert id="regist">
-        INSERT INTO tbl_mystudy(user_id, title,content, display_status, display_start, display_end, reg_date
-        ,image, hashtag, field)
-        VALUES(#{user_id},#{title},#{content},#{display_status},#{display_start},#{display_end},now(),#{image}
-        ,#{hashtag},#{field})
-    </insert>
-
-    <select id="insertId" resultType="int">
-        SELECT LAST_INSERT_ID(study_idx) FROM tbl_mystudy order by study_idx desc LIMIT 1
-    </select>
-
-    <insert id="shareRegist">
-        INSERT INTO tbl_share(receive_id, study_idx,share_id)
-        VALUES(#{receive_id},#{study_idx},#{share_id})
-    </insert>
-
-    <update id="modify">
-        UPDATE tbl_mystudy SET content=#{content}, title=#{title}, display_status=#{display_status},
-        display_start=#{display_start}, display_end=#{display_end}, image=#{image}, hashtag=#{hashtag},
-        field=#{field}, share_people=#{share_people}
-        WHERE study_idx = #{study_idx}
-    </update>
-
-    <delete id="delete">
-        DELETE FROM tbl_mystudy WHERE study_idx = #{study_idx}
-    </delete>
 
 </mapper>

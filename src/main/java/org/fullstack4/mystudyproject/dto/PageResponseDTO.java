@@ -34,7 +34,6 @@ public class PageResponseDTO<E> {
     private String order;
     private String count;
     private String user_id;
-    private List<String> receiveIds;
 
     PageResponseDTO() {}
 
@@ -60,9 +59,8 @@ public class PageResponseDTO<E> {
         this.search_date1 = requestDTO.getSearch_date1();
         this.search_date2 = requestDTO.getSearch_date2();
         this.user_id = requestDTO.getUser_id();
-        order = requestDTO.getOrder()!=null?requestDTO.getOrder():null;
+        this.order = requestDTO.getOrder()!=null?requestDTO.getOrder():null;
         count = requestDTO.getOrder()!=null?requestDTO.getOrder():null;
-        this.receiveIds = requestDTO.getReceiveIds();
 
         if(search_type != null) {
             this.sType = Arrays.toString(search_type).replace("[", "").replace("]", "");

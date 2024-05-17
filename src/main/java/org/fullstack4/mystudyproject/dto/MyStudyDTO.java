@@ -24,5 +24,6 @@ public class MyStudyDTO {
     private int like;
     private String image;
 
-    private List<String> receiveIds;
+    private String[] receive_id;
+    private String share_id;
 }

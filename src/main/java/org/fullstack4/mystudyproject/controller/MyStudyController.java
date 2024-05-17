@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -30,13 +32,14 @@ public class MyStudyController {
     public void main() {}
 
     @GetMapping("/list")
-    public void listGet(@Valid PageRequestDTO pageRequestDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public void listGet(@Valid PageRequestDTO pageRequestDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, HttpServletRequest req) {
 
         if (bindingResult.hasErrors()) {
-            log.info("BookController >> list errors");
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
         }
-        log.info("BookController >> list");
+
+        HttpSession session = req.getSession();
+        pageRequestDTO.setUser_id((String) session.getAttribute("user_id"));
 
         PageResponseDTO<MyStudyDTO> responseDTO = myStudyService.list(pageRequestDTO);
         model.addAttribute("responseDTO", responseDTO);
@@ -49,8 +52,9 @@ public class MyStudyController {
         MyStudyDTO myStudyDTO = myStudyService.view(study_idx);
         List<ShareDTO> shareDTOList = myStudyService.shareList(study_idx);
         model.addAttribute("shareDTOList", shareDTOList);
+        model.addAttribute("receive_id", shareDTOList.get(0).getReceive_id());
         model.addAttribute("myStudy", myStudyDTO);
-        model.addAttribute("receiveIds", myStudyDTO.getReceiveIds());
+
     }
 
     @GetMapping("/regist")
@@ -59,7 +63,7 @@ public class MyStudyController {
     }
 
     @PostMapping("/regist")
-    public String registPost(MyStudyDTO myStudyDTO,BindingResult bindingResult, RedirectAttributes redirectAttributes, ShareDTO shareDTO){
+    public String registPost(MyStudyDTO myStudyDTO,BindingResult bindingResult, RedirectAttributes redirectAttributes){
 
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
@@ -68,8 +72,8 @@ public class MyStudyController {
         }
 
         int result = myStudyService.regist(myStudyDTO);
-        int shareResult = myStudyService.shareRegist(shareDTO);
-        if(result > 0 && shareResult > 0){
+
+        if(result > 0){
             return "redirect:/myStudy/list";
         } else {
             return "redirect:/myStudy/regist";

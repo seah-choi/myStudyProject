@@ -24,6 +24,5 @@ public class MyStudyVO {
     private String field;
     private int like;
     private String image;
-    private ShareVO shareVO;
-    private List<String> receiveIds;
+
 }

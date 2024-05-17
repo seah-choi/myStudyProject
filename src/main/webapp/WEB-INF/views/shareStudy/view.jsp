@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>나의 학습 상세</title>
+    <title>공유학습 상세</title>
     <meta name="generator" content="Hugo 0.88.1">
     <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/sign-in/">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
@@ -28,7 +28,7 @@
 <body class="text-center">
 <div id="list">
     <div style="display: flex;margin-bottom: 20px;">
-        <p style="font-size: 20px;font-weight: bold;"><a href="/myStudy/list">나의 학습</a> > <a href="/myStudy/view?study_idx=${myStudy.study_idx}">나의 학습 상세</a> </p>
+        <p style="font-size: 20px;font-weight: bold;"><a href="/shareStudy/list">공유 학습</a> > <a href="/shareStudy/view?study_idx=${myStudy.study_idx}">공유 학습 상세</a> </p>
     </div>
     <table class="table table-bordered border-primary-subtle">
         <thead>

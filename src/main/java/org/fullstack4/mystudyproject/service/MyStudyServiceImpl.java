@@ -11,7 +11,9 @@ import org.fullstack4.mystudyproject.dto.ShareDTO;
 import org.fullstack4.mystudyproject.mapper.MyStudyMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,20 +35,19 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
                 .map(vo -> modelMapper.map(vo, ShareDTO.class))
                 .collect(Collectors.toList());
 
-        log.info("BbsServiceImpl >> listAll() : "+ shareDTOList.toString());
+        System.out.println(("BbsServiceImpl >> listAll() : "+ shareDTOList.toString()));
         return shareDTOList;
     }
 
+
     @Override
-    public int shareRegist(ShareDTO shareDTO) {
-        ShareVO shareVO = modelMapper.map(shareDTO, ShareVO.class);
-        int result = myStudyMapper.shareRegist(shareVO);
+    public int insertId() {
+        int result = myStudyMapper.insertId();
         return result;
     }
 
     @Override
     public PageResponseDTO<MyStudyDTO> list(PageRequestDTO pageRequestDTO) {
-        log.info(pageRequestDTO);
         List<MyStudyVO> voList = myStudyMapper.list(pageRequestDTO);
         List<MyStudyDTO> dtoList = voList.stream().map(vo->modelMapper.map(vo,MyStudyDTO.class)).collect(Collectors.toList());
         int total_count = myStudyMapper.total_count(pageRequestDTO);
@@ -63,9 +64,21 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
     }
 
     @Override
+    @Transactional
     public int regist(MyStudyDTO myStudyDTO) {
         MyStudyVO myStudyVO = modelMapper.map(myStudyDTO, MyStudyVO.class);
         int result = myStudyMapper.regist(myStudyVO);
+
+        //공유
+        int insertId = myStudyMapper.insertId();
+        int shareResult = 0;
+        myStudyDTO.setStudy_idx(insertId);
+
+        String[] ids = myStudyDTO.getReceive_id();
+        for(String id : ids) {
+            shareResult = myStudyMapper.shareRegist(id, myStudyDTO.getShare_id(), myStudyDTO.getStudy_idx());
+        }
+
         return result;
     }
 
