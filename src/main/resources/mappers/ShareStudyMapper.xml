@@ -24,11 +24,11 @@
                 AND display_date <![CDATA[<=]]> #{search_date2}
             </if>
 
-            <if test="order == 'send'">
-                AND share_id = #{user_id}
+            <if test="share_id != null">
+                AND ts.share_id = #{share_id}
             </if>
-            <if test="order == 'receive'">
-                AND receive_id = #{user_id}
+            <if test="receive_id != null">
+                AND ts.receive_id = #{receive_id}
             </if>
         </where>
     </sql>
@@ -48,15 +48,19 @@
     </select>
 
     <select id="total_count" resultType="int">
-        SELECT COUNT(*) FROM tbl_mystudy
+        SELECT COUNT(DISTINCT ts.study_idx) FROM tbl_mystudy AS tm
+        INNER JOIN tbl_share AS ts ON tm.study_idx = ts.study_idx
         <include refid="whereCondition"></include>
     </select>
 
     <select id="list" resultType="org.fullstack4.mystudyproject.domain.MyStudyVO">
-        SELECT tm.study_idx, tm.title, tm.display_status, tm.display_start, tm.display_end, tm.`like`, tm.reg_date, ts.receive_id, ts.share_id
+        SELECT tm.study_idx, MAX(tm.title) AS title, MAX(tm.display_status) AS display_status, MAX(tm.display_start) AS display_start,
+        MAX(tm.display_end) AS display_end, MAX(tm.`like`) AS `like`, MAX(tm.reg_date) AS reg_date, MAX(ts.receive_id) AS receive_id,
+        MAX(ts.share_id) AS share_id
         FROM tbl_mystudy AS tm
-        INNER JOIN tbl_share AS ts ON tm.study_idx = ts.share_idx
+        INNER JOIN tbl_share AS ts ON tm.study_idx = ts.study_idx
         <include refid="whereCondition"></include>
+        GROUP BY tm.study_idx
         order by reg_date desc
         LIMIT #{page_skip_count}, #{page_size}
     </select>

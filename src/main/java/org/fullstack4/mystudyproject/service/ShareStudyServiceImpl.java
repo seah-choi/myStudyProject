@@ -32,8 +32,11 @@ public class ShareStudyServiceImpl implements ShareStudyServiceIf{
         int total_count = myStudyMapper.total_count(pageRequestDTO);
         PageResponseDTO<MyStudyDTO> responseDTO = PageResponseDTO.<MyStudyDTO>withAll().requestDTO(pageRequestDTO)
                 .dtoList(dtoList).total_count(total_count).build();
+        System.out.println("responseDTO = " + responseDTO);
         return responseDTO;
     }
+
+
 
     @Override
     public MyStudyDTO view(int study_idx) {
@@ -53,7 +56,7 @@ public class ShareStudyServiceImpl implements ShareStudyServiceIf{
                 .map(vo -> modelMapper.map(vo, ShareDTO.class))
                 .collect(Collectors.toList());
 
-        System.out.println(("BbsServiceImpl >> listAll() : "+ shareDTOList.toString()));
+        System.out.println(("ShareStudyServiceImpl >> listAll() : "+ shareDTOList.toString()));
         return shareDTOList;
     }
 }

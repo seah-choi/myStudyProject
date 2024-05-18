@@ -35,7 +35,7 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
                 .map(vo -> modelMapper.map(vo, ShareDTO.class))
                 .collect(Collectors.toList());
 
-        System.out.println(("BbsServiceImpl >> listAll() : "+ shareDTOList.toString()));
+        System.out.println(("MyStudyServiceImpl >> listAll() : "+ shareDTOList.toString()));
         return shareDTOList;
     }
 
@@ -64,7 +64,6 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
     }
 
     @Override
-    @Transactional
     public int regist(MyStudyDTO myStudyDTO) {
         MyStudyVO myStudyVO = modelMapper.map(myStudyDTO, MyStudyVO.class);
         int result = myStudyMapper.regist(myStudyVO);

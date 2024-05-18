@@ -25,4 +25,7 @@ public class MyStudyVO {
     private int like;
     private String image;
 
+    private String[] receive_id;
+    private String share_id;
+
 }

@@ -27,7 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/shareStudy")
 public class ShareController {
-    private final MyStudyServiceIf shareStudyService;
+    private final ShareStudyServiceIf shareStudyService;
 
     @GetMapping("/list")
     public void listGet(@Valid PageRequestDTO pageRequestDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, HttpServletRequest req) {
@@ -42,9 +42,15 @@ public class ShareController {
         pageRequestDTO.setUser_id((String) session.getAttribute("user_id"));
 
         PageResponseDTO<MyStudyDTO> responseDTO = shareStudyService.list(pageRequestDTO);
+
         model.addAttribute("responseDTO", responseDTO);
         model.addAttribute("order", responseDTO.getOrder());
         model.addAttribute("count", responseDTO.getCount());
+        model.addAttribute("share_id",responseDTO.getShare_id());
+        model.addAttribute("receive_id",responseDTO.getReceive_id());
+
+        System.out.println("receive_id : " + responseDTO.getReceive_id());
+        System.out.println("share_id : " + responseDTO.getShare_id());
         System.out.println("responseDTO : " + pageRequestDTO);
     }
 

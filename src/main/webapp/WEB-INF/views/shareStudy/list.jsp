@@ -58,14 +58,10 @@
         <br>
         <div style="display: flex;justify-content: space-between;margin-bottom: 10px">
             <div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="order" id="send" value="send" ${order=="send" ? "checked" : ""}>
-                    <label class="form-check-label" for="send">내가 한 공유</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="order" id="receive" value="receive" ${order=="receive" ? "checked" : ""}>
-                    <label class="form-check-label" for="receive">내가 받은 공유</label>
-                </div>
+                <ul>
+                    <li style="display: inline;"><a style="color: #000" href="/shareStudy/list?share_id=${sessionScope.user_id}">• 내가 한 공유</a></li>&nbsp;&nbsp;
+                    <li style="display: inline;"><a style="color: #000" href="/shareStudy/list?receive_id=${sessionScope.user_id}">• 내가 받은 공유</a></li>
+                </ul>
             </div>
             <div style="display: flex">
                 <select name="page_size" onchange="this.frm.submit()" class="form-select form-select-sm" aria-label="Small select example" style="width: 70px;">
@@ -138,30 +134,6 @@
 <%@ include file="../common/footer.jsp"%>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var url = new URL(window.location);
-
-        // 'order' 파라미터의 값을 얻습니다.
-        var countParam = url.searchParams.get('order');
-
-        // 'order' 파라미터가 없거나 비어있는 경우, 기본값을 'new'로 설정합니다.
-        if (!countParam) {
-            url.searchParams.set('order', 'send');
-            window.location.href = url.href;
-        }
-
-        // 'order' select 메뉴의 선택 변경을 감지합니다.
-        document.querySelector('select[name="order"]').addEventListener('change', function() {
-            // 선택된 값(value)을 얻습니다.
-            var selectedOrder = this.value;
-
-            // 'order' 파라미터를 현재 선택된 값으로 설정(또는 업데이트)합니다.
-            url.searchParams.set('order', selectedOrder);
-
-            // 변경된 URL로 페이지를 리디렉션합니다.
-            window.location.href = url.href;
-        });
-    });
 
     // document.addEventListener('DOMContentLoaded', function() {
     //     var url = new URL(window.location);

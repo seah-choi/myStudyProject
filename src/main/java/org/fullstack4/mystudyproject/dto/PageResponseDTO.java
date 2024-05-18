@@ -34,6 +34,8 @@ public class PageResponseDTO<E> {
     private String order;
     private String count;
     private String user_id;
+    private String[] receive_id;
+    private String share_id;
 
     PageResponseDTO() {}
 
@@ -61,6 +63,8 @@ public class PageResponseDTO<E> {
         this.user_id = requestDTO.getUser_id();
         this.order = requestDTO.getOrder()!=null?requestDTO.getOrder():null;
         count = requestDTO.getOrder()!=null?requestDTO.getOrder():null;
+        this.share_id = requestDTO.getShare_id()!=null?requestDTO.getShare_id():null;
+        this.receive_id = requestDTO.getReceive_id()!=null?requestDTO.getReceive_id():null;
 
         if(search_type != null) {
             this.sType = Arrays.toString(search_type).replace("[", "").replace("]", "");
@@ -81,6 +85,12 @@ public class PageResponseDTO<E> {
         }
         if(order != null) {
             sb.append("&order="+order);
+        }
+        if(receive_id != null) {
+            sb.append("&receive_id="+receive_id);
+        }
+        if(share_id != null) {
+            sb.append("&share_id="+share_id);
         }
 
         this.linkParams = sb.toString();
