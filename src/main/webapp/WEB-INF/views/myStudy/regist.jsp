@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>나의 학습</title>
@@ -66,7 +67,7 @@
                     </div>
                 </td>
                 <td colspan="4">
-                    <div style="display: flex">
+                    <div id="date" style="display: none">
                     <input type="date" class="form-control" name="display_start" id="display_start" placeholder="등록일 시작" value="display_start" style="width: 200px; margin-right: 5px;">
                         <span style="padding: 10px"> ~ </span>
                     <input type="date" class="form-control" name="display_end" id="display_end" placeholder="등록일 끝" value="display_end" style="width: 200px">
@@ -76,7 +77,11 @@
             <tr>
                 <th scope="col" colspan="3">공유한 사람</th>
                 <td colspan="4">
-                    <input type="text" id="receive_id1" name="receive_id">
+                    <div id="input">
+                        <button type="button" id="add">+</button>
+                        <button type="button" id="remove">-</button>
+                        <input type="text" name="receive_id">
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -102,13 +107,47 @@
 <script>
     function goRegist(e) {
         e.preventDefault();
-        if(confirm("글을 등록하시겠습니까?")) {
+        if (confirm("글을 등록하시겠습니까?")) {
             alert("정상적으로 등록되었습니다.");
             document.getElementById("frm").submit();
         } else {
             return false;
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('input[name="display_status"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                if (document.getElementById('Y').checked) {
+                    document.getElementById('date').style.display = 'flex';
+                } else {
+                    document.getElementById('date').style.display = 'none';
+                }
+            });
+        });
+    });
+
+    document.getElementById('add').addEventListener('click', function() {
+        let input = document.getElementById('input');
+        let inputElements = input.getElementsByTagName('input');
+
+        if (inputElements.length < 4) {
+            let newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'receive_id';
+            input.appendChild(newInput);
+        }
+    });
+
+    document.getElementById('remove').addEventListener('click', function() {
+        let input = document.getElementById('input');
+        let inputElements = input.getElementsByTagName('input');
+
+        if (inputElements.length > 1) {
+            input.removeChild(inputElements[inputElements.length - 1]);
+        }
+    });
+
 </script>
 </html>
 

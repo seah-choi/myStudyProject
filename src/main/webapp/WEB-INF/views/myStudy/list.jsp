@@ -48,15 +48,6 @@
             <option value="t" ${search_type=="t" ? "selected" : ""}>제목</option>
             <option value="u" ${search_type=="u" ? "selected" : ""}>글내용</option>
         </select>
-<%--        <div class="form-check form-check-inline">--%>
-<%--            <c:set value="${fn:join(responseDTO.search_type,'')}" var="search_type"/>--%>
-<%--            <input class="form-check-input" type="checkbox" id="search_type_1" name="search_type" value="t" <c:if test='${fn:contains(search_type, "t")}'>checked</c:if>>--%>
-<%--            <label class="form-check-label" for="search_type_1">제목</label>--%>
-<%--        </div>--%>
-<%--        <div class="form-check form-check-inline">--%>
-<%--            <input class="form-check-input" type="checkbox" id="search_type_2" name="search_type" value="u" <c:if test='${fn:contains(search_type, "u")}'>checked</c:if>>--%>
-<%--            <label class="form-check-label" for="search_type_2">글내용</label>--%>
-<%--        </div>--%>
         <input class="form-control" type="text" placeholder="검색어" aria-label="default input example" name="search_word" id="search_word" value='<c:out value="${pageRequestDTO.search_word}"/>' style="width: 805px;">
         </div>
         <br>
@@ -67,7 +58,7 @@
         <div style="display: flex;justify-content: space-between;margin-bottom: 10px">
             <div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="order" id="new" value="new" ${order=="new" ? "checked" : ""}>
+                <input class="form-check-input" type="radio" name="order" id="new" value="new" ${order=='new' ? "checked" : ""}>
                 <label class="form-check-label" for="new">최신순</label>
             </div>
             <div class="form-check form-check-inline">

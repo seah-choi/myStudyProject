@@ -55,9 +55,14 @@ public class ShareController {
     }
 
     @GetMapping("/view")
-    public void view(Model model, @RequestParam(name="study_idx", defaultValue = "0") int study_idx) {
+    public void view(@Valid PageRequestDTO pageRequestDTO,Model model, @RequestParam(name="study_idx", defaultValue = "0") int study_idx,HttpServletRequest req) {
+        log.info("ShareController >> view");
         MyStudyDTO myStudyDTO = shareStudyService.view(study_idx);
         List<ShareDTO> shareDTOList = shareStudyService.shareList(study_idx);
+
+        HttpSession session = req.getSession();
+        pageRequestDTO.setUser_id((String) session.getAttribute("user_id"));
+
         model.addAttribute("shareDTOList", shareDTOList);
         model.addAttribute("receive_id", shareDTOList.get(0).getReceive_id());
         model.addAttribute("myStudy", myStudyDTO);

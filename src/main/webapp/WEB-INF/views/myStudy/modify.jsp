@@ -65,7 +65,7 @@
                     </div>
                 </td>
                 <td colspan="4">
-                    <div style="display: flex">
+                    <div id="date" style="display: none">
                         <input type="date" class="form-control" name="display_start" id="display_start" placeholder="등록일 시작" value="${myStudy.display_start}" style="width: 200px; margin-right: 5px;">
                         <span style="padding: 10px"> ~ </span>
                         <input type="date" class="form-control" name="display_end" id="display_end" placeholder="등록일 끝" value="${myStudy.display_end}" style="width: 200px">
@@ -74,7 +74,12 @@
             </tr>
             <tr>
                 <th scope="col" colspan="3">공유한 사람</th>
-                <td colspan="4"><input type="text" id="share_people" name="share_people" value="${myStudy.share_people}"></td>
+                <td colspan="4">
+                    <div id="input">
+                        <button type="button" id="add">+</button>
+                        <input type="text" name="receive_id" value="${myStudy.receive_id}">
+                    </div>
+                </td>
             </tr>
             <tr>
                 <th scope="col" colspan="3">분야</th>
@@ -106,6 +111,28 @@
             return false;
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+        document.querySelectorAll('input[name="display_status"]').forEach(function (radio) {
+            radio.addEventListener('change', function () {
+                if (document.getElementById('Y').checked) {
+                    document.getElementById('date').style.display = 'flex';
+                } else {
+                    document.getElementById('date').style.display = 'none';
+                }
+            });
+        });
+    });
+
+    document.querySelector("#add").addEventListener("click",function (){
+        let addInput = document.createElement("input");
+        addInput.type="text";
+        addInput.name="receive_id";
+
+        let input = document.getElementById('input');
+        input.appendChild(addInput);
+    });
 </script>
 </html>
 

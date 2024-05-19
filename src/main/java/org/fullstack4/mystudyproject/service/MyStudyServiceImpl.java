@@ -60,6 +60,7 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
     public MyStudyDTO view(int study_idx) {
         MyStudyVO myStudyVO = myStudyMapper.view(study_idx);
         MyStudyDTO myStudyDTO = modelMapper.map(myStudyVO, MyStudyDTO.class);
+        System.out.println("MyStudyServiceImpl >> view : "+ myStudyDTO.toString());
         return myStudyDTO;
     }
 
@@ -85,6 +86,17 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
     public int modify(MyStudyDTO myStudyDTO) {
         MyStudyVO myStudyVO = modelMapper.map(myStudyDTO, MyStudyVO.class);
         int result = myStudyMapper.modify(myStudyVO);
+
+        //공유
+        int insertId = myStudyMapper.insertId();
+        int shareResult = 0;
+        myStudyDTO.setStudy_idx(insertId);
+
+        String[] ids = myStudyDTO.getReceive_id();
+        for(String id : ids) {
+            shareResult = myStudyMapper.shareModify(id, myStudyDTO.getShare_id(), myStudyDTO.getStudy_idx());
+        }
+
         return result;
     }
 
