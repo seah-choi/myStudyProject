@@ -5,12 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.checkerframework.checker.index.qual.Positive;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.Arrays;
-import java.util.List;
 
 @Log4j2
 @Data
@@ -59,6 +56,7 @@ public class PageRequestDTO {
     private String search_word;
     private String search_date1;
     private String search_date2;
+    private String share_type;
 
     private String order;
     private String count;

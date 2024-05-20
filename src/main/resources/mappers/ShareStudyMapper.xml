@@ -6,7 +6,7 @@
 
     <sql id="whereCondition">
         <where>
-            user_id = #{user_id}
+            1=1
             <if test="search_type != null">
                 <foreach collection="search_type" item="type" open="(" close=")" separator=" OR ">
                     <if test="type == 't'.toString()">
@@ -24,11 +24,15 @@
                 AND display_date <![CDATA[<=]]> #{search_date2}
             </if>
 
-            <if test="share_id != null">
-                AND ts.share_id = #{share_id}
-            </if>
-            <if test="receive_id != null">
-                AND ts.receive_id = #{receive_id}
+            <if test="share_type != null">
+                <choose>
+                    <when test="share_type == 'share'">
+                        and ts.share_id = #{user_id}
+                    </when>
+                    <when test="share_type == 'receive'">
+                        and ts.receive_id = #{user_id}
+                    </when>
+                </choose>
             </if>
         </where>
     </sql>

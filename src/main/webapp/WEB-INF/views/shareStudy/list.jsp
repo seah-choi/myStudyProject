@@ -58,10 +58,14 @@
         <br>
         <div style="display: flex;justify-content: space-between;margin-bottom: 10px">
             <div>
-                <ul>
-                    <li style="display: inline;"><a style="color: #000" href="/shareStudy/list?share_id=${sessionScope.user_id}">• 내가 한 공유</a></li>&nbsp;&nbsp;
-                    <li style="display: inline;"><a style="color: #000" href="/shareStudy/list?receive_id=${sessionScope.user_id}">• 내가 받은 공유</a></li>
-                </ul>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="share_type" id="share" value="share" ${share_type=='share' ? "checked" : ""}>
+                    <label class="form-check-label" for="share">내가 한 공유</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="share_type" id="receive" value="receive" ${share_type=="receive" ? "checked" : ""}>
+                    <label class="form-check-label" for="receive">내가 받은 공유</label>
+                </div>
             </div>
             <div style="display: flex">
                 <select name="page_size" onchange="this.frm.submit()" class="form-select form-select-sm" aria-label="Small select example" style="width: 70px;">
@@ -134,31 +138,33 @@
 <%@ include file="../common/footer.jsp"%>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 현재 URL을 분석합니다.
+        var url = new URL(window.location);
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //     var url = new URL(window.location);
-    //
-    //     // 'order' 파라미터의 값을 얻습니다.
-    //     var countParam = url.searchParams.get('count');
-    //
-    //     // 'order' 파라미터가 없거나 비어있는 경우, 기본값을 'new'로 설정합니다.
-    //     if (!countParam) {
-    //         url.searchParams.set('count', '30');
-    //         window.location.href = url.href;
-    //     }
-    //
-    //     // 'order' select 메뉴의 선택 변경을 감지합니다.
-    //     document.querySelector('select[name="count"]').addEventListener('change', function() {
-    //         // 선택된 값(value)을 얻습니다.
-    //         var selectedOrder = this.value;
-    //
-    //         // 'order' 파라미터를 현재 선택된 값으로 설정(또는 업데이트)합니다.
-    //         url.searchParams.set('count', selectedOrder);
-    //
-    //         // 변경된 URL로 페이지를 리디렉션합니다.
-    //         window.location.href = url.href;
-    //     });
-    // });
+        // 'order' 파라미터의 값을 얻습니다.
+        var orderParam = url.searchParams.get('share_type');
+
+        // 'order' 파라미터가 없거나 비어있는 경우, 기본값을 'new'로 설정합니다.
+        if (!orderParam) {
+            url.searchParams.set('share_type', 'share');
+            window.location.href = url.href;
+        }
+
+        // 'order' 라디오 버튼의 선택 변경을 감지합니다.
+        document.querySelectorAll('input[name="share_type"]').forEach(function(radioButton) {
+            radioButton.addEventListener('change', function() {
+                // 선택된 값(value)을 얻습니다.
+                var selectedOrder = this.value;
+
+                // 'order' 파라미터를 현재 선택된 값으로 설정(또는 업데이트)합니다.
+                url.searchParams.set('share_type', selectedOrder);
+
+                // 변경된 URL로 페이지를 리디렉션합니다.
+                window.location.href = url.href;
+            });
+        });
+    });
 </script>
 </body>
 </html>

@@ -37,7 +37,7 @@ public class LoginController {
                                        HttpServletRequest req,
                                        BindingResult bindingResult,
                                        RedirectAttributes redirectAttributes){
-                
+
         log.info("LoginController >> loginPost");
 
         LoginDTO loginMemberDTO = loginService.login(memberDTO.getUser_id(), memberDTO.getPassword());
@@ -62,14 +62,64 @@ public class LoginController {
         return "redirect:/";
         }
         else{
-//            int login_fail = loginService.login_fail(loginMemberDTO.getUser_id());
-//            if(login_fail > 5){
-//                redirectAttributes.addFlashAttribute("loginFail","5회 이상 로그인 실패로 잠근 처리된 계정입니다. 관리자에게 문의해주세요.");
-//            } else{
             redirectAttributes.addFlashAttribute("loginErr", "아이디 혹은 비밀번호가 일치하지 않습니다.");
             return "redirect:/login/login";
         }
     }
+
+//    @PostMapping("/login")
+//    public String loginPost(Model model, LoginDTO memberDTO,
+//                            @RequestParam(name="save_id", defaultValue = "") String save_id,
+//                            HttpServletResponse resp,
+//                            HttpServletRequest req,
+//                            BindingResult bindingResult,
+//                            RedirectAttributes redirectAttributes) {
+//
+//        log.info("LoginController >> loginPost");
+//
+//        if (bindingResult.hasErrors()) {
+//            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+//            return "redirect:/login/login";
+//        }
+//
+//        LoginDTO loginMemberDTO = loginService.login(memberDTO.getUser_id(), memberDTO.getPassword());
+//
+//        if (loginMemberDTO != null && !"N".equals(loginMemberDTO.getMember_status())) {
+//            // 아이디 저장 로직
+//            if (loginMemberDTO != null) {
+//                if (save_id != null && !save_id.equals("Y")) {
+//                    CookieUtil.setDeleteCookie(resp, "", "/", 60 * 60 * 24, "save_id", memberDTO.getUser_id());
+//                    log.info("아이디 저장");
+//                }
+//
+//                HttpSession session = req.getSession();
+//                session.setAttribute("user_id", loginMemberDTO.getUser_id());
+//                session.setAttribute("name", loginMemberDTO.getName());
+//                session.setAttribute("loginMemberDTO", loginMemberDTO);
+//                model.addAttribute("memberDTO", loginMemberDTO);
+//
+//                // 로그인 성공 시 로그인 실패 횟수 리셋
+//                loginService.resetLoginFail(memberDTO.getUser_id());
+//
+//                return "redirect:/";
+//            } else {
+//                if (loginMemberDTO != null && "N".equals(loginMemberDTO.getMember_status())) {
+//                    redirectAttributes.addFlashAttribute("loginErr", "계정이 잠겼습니다. 관리자에게 문의하세요.");
+//                } else {
+//                    // 로그인 실패 시 로그인 실패 횟수 업데이트
+//                    int loginFail = loginService.updateLoginFail(memberDTO.getUser_id());
+//                    if (loginFail >= 5) {
+//                        loginService.lockAccount(memberDTO.getUser_id());
+//                        redirectAttributes.addFlashAttribute("loginErr", "로그인 실패가 5회 이상이어서 계정이 잠겼습니다.");
+//                    } else {
+//                        redirectAttributes.addFlashAttribute("loginErr", "아이디 혹은 비밀번호가 일치하지 않습니다.");
+//                    }
+//                }
+//                return "redirect:/login/login";
+//            }
+//        }
+//    }
+
 
     @RequestMapping("/logout")
     public String logout(HttpServletRequest req){

@@ -53,7 +53,7 @@
         </tbody>
     </table>
     <div style="display: flex">
-        <img src="${myStudy.image}" id="img" width="400px" height="300px">
+        <img src="/resources/img/uploads/${myStudy.image}" id="img" width="400px" height="300px">
         <div>
             <textarea cols="90" rows="12" readonly>${myStudy.content}</textarea>
         </div>
@@ -64,7 +64,7 @@
             <th scope="col">공유한 사람</th>
             <td colspan="6">
                 <c:forEach var="shareDTO" items="${shareDTOList}">
-                    ${shareDTO.name}(${receive_id})&nbsp;&nbsp;
+                    ${shareDTO.name}(${shareDTO.receive_id})&nbsp;&nbsp;
                 </c:forEach>
             </td>
         </tr>

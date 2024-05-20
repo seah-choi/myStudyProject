@@ -35,7 +35,6 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
                 .map(vo -> modelMapper.map(vo, ShareDTO.class))
                 .collect(Collectors.toList());
 
-        System.out.println(("MyStudyServiceImpl >> listAll() : "+ shareDTOList.toString()));
         return shareDTOList;
     }
 
@@ -60,7 +59,11 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
     public MyStudyDTO view(int study_idx) {
         MyStudyVO myStudyVO = myStudyMapper.view(study_idx);
         MyStudyDTO myStudyDTO = modelMapper.map(myStudyVO, MyStudyDTO.class);
-        System.out.println("MyStudyServiceImpl >> view : "+ myStudyDTO.toString());
+
+        List<ShareDTO> shareDTOList = myStudyMapper.shareList(study_idx).stream()
+                .map(vo -> modelMapper.map(vo, ShareDTO.class))
+                .collect(Collectors.toList());
+
         return myStudyDTO;
     }
 
@@ -87,14 +90,18 @@ public class MyStudyServiceImpl implements MyStudyServiceIf{
         MyStudyVO myStudyVO = modelMapper.map(myStudyDTO, MyStudyVO.class);
         int result = myStudyMapper.modify(myStudyVO);
 
+        myStudyMapper.shareDelete(myStudyDTO.getStudy_idx());
+
         //공유
-        int insertId = myStudyMapper.insertId();
         int shareResult = 0;
-        myStudyDTO.setStudy_idx(insertId);
 
         String[] ids = myStudyDTO.getReceive_id();
+        log.info(myStudyDTO.getShare_id());
+        log.info(myStudyDTO.getStudy_idx());
         for(String id : ids) {
-            shareResult = myStudyMapper.shareModify(id, myStudyDTO.getShare_id(), myStudyDTO.getStudy_idx());
+            System.out.println("ids : " + id);
+
+            shareResult = myStudyMapper.shareRegist(id, myStudyDTO.getShare_id(), myStudyDTO.getStudy_idx());
         }
 
         return result;

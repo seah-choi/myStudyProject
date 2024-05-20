@@ -26,10 +26,12 @@ public class PageResponseDTO<E> {
     private String search_word;
     private String search_date1;
     private String search_date2;
+    private String share_type;
 
     private String linkParams;
 
     private String sType;
+    private String shareType;
 
     private String order;
     private String count;
@@ -72,10 +74,15 @@ public class PageResponseDTO<E> {
             this.sType = "";
         }
 
+        this.share_type = requestDTO.getShare_type();
+
 
         StringBuilder sb = new StringBuilder("?page_size="+ this.page_size);
         if(search_type != null ) {
             sb.append("&search_type="+sType+"&search_word="+search_word);
+        }
+        if(share_type != null ) {
+            sb.append("&share_type="+share_type);
         }
         if(search_date1 != null ) {
             sb.append("&search_date1="+search_date1);

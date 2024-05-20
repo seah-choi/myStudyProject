@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>나의 학습</title>
@@ -27,8 +28,9 @@
     <div style="display: flex;margin-bottom: 20px;">
         <p style="font-size: 20px;font-weight: bold;"><a href="/myStudy/list">나의 학습</a> > <a href="/myStudy/modify?study_idx=${myStudy.study_idx}">나의 학습 수정</a> </p>
     </div>
-    <form id="frm" name="frm" action="/myStudy/modify" method="post">
+    <form id="frm" name="frm" action="/myStudy/modify" method="post" enctype="multipart/form-data">
         <input type="hidden" id="study_idx" name="study_idx" value="${myStudy.study_idx}">
+        <input type="hidden" id="share_id" name="share_id" value="${sessionScope.user_id}">
         <table class="table table-bordered border-primary-subtle">
             <thead>
             <tr>
@@ -44,8 +46,11 @@
             <tr>
                 <th scope="col">이미지</th>
                 <td colspan="6">
+                    <div>
+                        <img src="/resources/img/uploads/${myStudy.image}" alt="Uploaded Image" id="uploadedImage" style="width: 100px; height: auto;">
+                    </div>
                     <div class="input-group mb-3">
-                        <input type="file" class="form-control" id="image" name="image" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
+                        <input type="file" class="form-control" id="image" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
                     </div>
                 </td>
             </tr>
@@ -77,7 +82,10 @@
                 <td colspan="4">
                     <div id="input">
                         <button type="button" id="add">+</button>
-                        <input type="text" name="receive_id" value="${myStudy.receive_id}">
+                        <button type="button" id="remove">-</button>
+                        <c:forEach items="${shareDTOList}" var="list">
+                            <input type="text" name="receive_id" value="${list.receive_id}">
+                        </c:forEach>
                     </div>
                 </td>
             </tr>
@@ -125,13 +133,34 @@
         });
     });
 
-    document.querySelector("#add").addEventListener("click",function (){
-        let addInput = document.createElement("input");
-        addInput.type="text";
-        addInput.name="receive_id";
-
+    document.getElementById('add').addEventListener('click', function() {
         let input = document.getElementById('input');
-        input.appendChild(addInput);
+        let inputElements = input.getElementsByTagName('input');
+
+        if (inputElements.length < 4) {
+            let newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'receive_id';
+            input.appendChild(newInput);
+        }
+    });
+
+    document.getElementById('remove').addEventListener('click', function() {
+        let input = document.getElementById('input');
+        let inputElements = input.getElementsByTagName('input');
+
+        if (inputElements.length > 1) {
+            input.removeChild(inputElements[inputElements.length - 1]);
+        }
+    });
+
+    document.getElementById('image').addEventListener('change', function(event) {
+        var reader = new FileReader();
+        reader.onload = function() {
+            var output = document.getElementById('uploadedImage');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
     });
 </script>
 </html>

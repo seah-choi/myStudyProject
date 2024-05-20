@@ -16,6 +16,7 @@ public interface MyStudyMapper {
     int total_count(PageRequestDTO requestDTO);
     List<ShareVO> shareList(int study_idx);
     int shareRegist(@Param(value = "receive_id") String receive_id, @Param(value = "share_id")String share_id, @Param(value = "study_idx")int study_idx);
-    int shareModify(@Param(value = "receive_id") String receive_id, @Param(value = "share_id")String share_id, @Param(value = "study_idx")int study_idx);
+    //int shareModify(@Param(value = "receive_id") String receive_id, @Param(value = "share_id")String share_id, @Param(value = "study_idx")int study_idx);
     int insertId();
+    int shareDelete(int study_idx);
 }

@@ -26,13 +26,13 @@ public class ShareStudyServiceImpl implements ShareStudyServiceIf{
     @Override
     public PageResponseDTO<MyStudyDTO> list(PageRequestDTO pageRequestDTO) {
         log.info("ShareStudyServiceImpl >> list");
-        log.info(pageRequestDTO);
+        log.info("ShareStudyServiceImpl>> list >> pageRequestDTO = " + pageRequestDTO);
         List<MyStudyVO> voList = myStudyMapper.list(pageRequestDTO);
         List<MyStudyDTO> dtoList = voList.stream().map(vo->modelMapper.map(vo,MyStudyDTO.class)).collect(Collectors.toList());
         int total_count = myStudyMapper.total_count(pageRequestDTO);
         PageResponseDTO<MyStudyDTO> responseDTO = PageResponseDTO.<MyStudyDTO>withAll().requestDTO(pageRequestDTO)
                 .dtoList(dtoList).total_count(total_count).build();
-        System.out.println("responseDTO = " + responseDTO);
+        log.info("ShareStudyServiceImpl>> list >> responseDTO = " + responseDTO);
         return responseDTO;
     }
 

@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 public class ShareVO {
     private int share_idx;
-    private String[] receive_id;
+    private String receive_id;
     private int study_idx;
     private String share_id;
     private String name;

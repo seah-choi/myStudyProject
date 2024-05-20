@@ -75,10 +75,10 @@
         VALUES(#{receive_id},#{study_idx},#{share_id})
     </insert>
 
-    <update id="shareModify">
-        UPDATE tbl_share SET receive_id = #{receive_id}
-        WHERE study_idx = #{study_idx}
-    </update>
+    <delete id ="shareDelete">
+        delete from tbl_share
+        where study_idx=#{param1}
+    </delete>
 
     <update id="modify">
         UPDATE tbl_mystudy SET content=#{content}, title=#{title}, display_status=#{display_status},

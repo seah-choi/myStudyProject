@@ -10,5 +10,9 @@ public interface LoginMapper {
     int pwdChange(@Param("user_id") String id, @Param("password") String pwd);
     int idCheck(String user_id);
     int pwdSearch(@Param("user_id") String id, @Param("password") String pwd);
-    int login_fail(String id);
+
+    LoginVO findByUsername(@Param("user_id") String user_id);
+    void updateLoginFail(@Param("user_id") String user_id, @Param("loginFail") int loginFail);
+    void lockAccount(@Param("user_id") String user_id);
+    void resetLoginFail(@Param("user_id") String user_id);
 }

@@ -39,19 +39,26 @@ public class ShareController {
         }
 
         HttpSession session = req.getSession();
-        pageRequestDTO.setUser_id((String) session.getAttribute("user_id"));
+        String user_id = (String)session.getAttribute("user_id");
+        pageRequestDTO.setUser_id(user_id);
+        pageRequestDTO.setShare_id(user_id);
+
+        log.info("ShareController >> listGet >> session.getAttribute(user_id) : "+session.getAttribute("user_id"));
+        log.info("ShareController >> listGet >> share_id : "+pageRequestDTO.getShare_id());
 
         PageResponseDTO<MyStudyDTO> responseDTO = shareStudyService.list(pageRequestDTO);
 
         model.addAttribute("responseDTO", responseDTO);
-        model.addAttribute("order", responseDTO.getOrder());
+        model.addAttribute("share_type",responseDTO.getShare_type());
         model.addAttribute("count", responseDTO.getCount());
         model.addAttribute("share_id",responseDTO.getShare_id());
         model.addAttribute("receive_id",responseDTO.getReceive_id());
 
+        System.out.println("user_id = "+user_id);
+        System.out.println("share_type = " + responseDTO.getShare_type());
         System.out.println("receive_id : " + responseDTO.getReceive_id());
         System.out.println("share_id : " + responseDTO.getShare_id());
-        System.out.println("responseDTO : " + pageRequestDTO);
+        System.out.println("ShareController >> responseDTO : " + responseDTO);
     }
 
     @GetMapping("/view")

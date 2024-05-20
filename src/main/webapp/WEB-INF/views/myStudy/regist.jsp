@@ -28,7 +28,7 @@
     <div style="display: flex;margin-bottom: 20px;">
         <p style="font-size: 20px;font-weight: bold;"><a href="/myStudy/list">나의 학습</a> > <a href="/myStudy/regist">나의 학습 등록</a> </p>
     </div>
-    <form id="frm" name="frm" action="/myStudy/regist" method="post">
+    <form id="frm" name="frm" action="/myStudy/regist" method="post" enctype="multipart/form-data">
         <input type="hidden" id="user_id" name="user_id" value="${sessionScope.user_id}">
         <input type="hidden" id="share_id" name="share_id" value="${sessionScope.user_id}">
         <table class="table table-bordered border-primary-subtle">
@@ -47,7 +47,7 @@
                 <th scope="col">이미지</th>
                 <td colspan="6">
                     <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="image" name="image" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
+                    <input type="file" class="form-control" id="image" name="file" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
                     </div>
                 </td>
             </tr>
